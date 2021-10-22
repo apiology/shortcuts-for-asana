@@ -1,7 +1,7 @@
 module.exports = {
-  entry: ['./src/background.js', './src/shortcuts_for_asana.js'],
+  entry: ['./src/content-script.js', './src/shortcuts_for_asana.js'],
   output: {
-    filename: 'background.js',
+    filename: 'content-script.js',
   },
   node: {
     // https://github.com/webpack-contrib/css-loader/issues/447
