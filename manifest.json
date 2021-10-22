@@ -5,14 +5,10 @@
   "permissions": [
     "activeTab"
   ],
-  "background": {
-    "scripts": ["dist/background.js"],
-    "persistent": false
-  },
   "content_scripts": [
     {
       "matches": ["https://app.asana.com/*"],
-      "js": ["config.js", "dist/content-script.js"]
+      "js": ["dist/content-script.js"]
     }
   ],
   "manifest_version": 2
