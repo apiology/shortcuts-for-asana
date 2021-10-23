@@ -2,23 +2,17 @@
 
 [![CircleCI](https://circleci.com/gh/apiology/shortcuts_for_asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts_for_asana)
 
-WARNING: This is not ready for use yet!
-
 Chrome extension which adds missing keyboard shortcuts/behavior to Asana
 
-## Installing
+## Using
 
-This isn't in the Chrome App Store, so welcome to the Chrome Extension
-development experience!
+### Task List
 
-1. Run 'make' to create the bundle with webpack, or 'make start' to
-   start webpack in watch mode.
-2. Go to [chrome://extensions/](chrome://extensions/)
-3. Make sure 'Developer mode' is flipped on in the upper right.
-4. Click the 'Load unpacked' button.
-5. Choose the `dist/` directory containing your Chrome extension code.
+When you mark a task complete using cmd-enter in the task list view,
+Shortcuts for Asana will return your focus to the first open task.
 
-## Usage
+### Dependent Task Dialog
+
 If you mark a task done which has dependent tasks, links to those
 tasks appear in the warning dialog.  Shortcuts for Asana adds keyboard
 shortcuts for those tasks:
@@ -30,3 +24,15 @@ shortcuts for those tasks:
 (see [Upvoter for
 Asana](https://github.com/apiology/upvoter_for_asana) for an
 interesting use for these links!)
+
+## Installing
+
+This isn't in the Chrome App Store, so welcome to the Chrome Extension
+development experience!
+
+1. Run 'make' to create the bundle with webpack, or 'make start' to
+   start webpack in watch mode.
+2. Go to [chrome://extensions/](chrome://extensions/)
+3. Make sure 'Developer mode' is flipped on in the upper right.
+4. Click the 'Load unpacked' button.
+5. Choose this directory
