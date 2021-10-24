@@ -11,6 +11,14 @@ Chrome extension which adds missing keyboard shortcuts/behavior to Asana
 When you mark a task complete using cmd-enter in the task list view,
 Shortcuts for Asana will return your focus to the first open task.
 
+### Task Description
+
+If you have links within a task description, Shortcuts for Asana adds
+keyboard shortcuts for those tasks:
+
+* cmd-ctrl-1: open the first link in a new tab
+* cmd-ctrl-2...: etc
+
 ### Dependent Task Dialog
 
 If you mark a task done which has dependent tasks, links to those

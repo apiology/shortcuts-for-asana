@@ -10,23 +10,39 @@ const dependencyLinks = () => {
   return links;
 };
 
+// if no dependency dialog, let's pick out links in task descriptions...
+//
+// .PrimaryNavigationLink is a link to another entity in Asana
+// .ProsemirrorEditor-link is a link to an outside site
+const bodyLinks = () => Array.from(document.querySelectorAll('.PrimaryNavigationLink,.ProsemirrorEditor-link'));
+
 console.log('Defining shortcutsKeyDownBeforeOthers');
 function shortcutsKeyDownBeforeOthers(e) {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
   const nonZeroDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   if (e.metaKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
     const num = parseInt(e.key, 10);
-    const links = dependencyLinks();
-    const linkFound = links[num - 1];
-    console.log('linkFound', linkFound);
-    linkFound.click();
+    const dependencies = dependencyLinks();
+    if (dependencies.length > 0) {
+      const linkFound = dependencies[num - 1];
+      console.log('linkFound', linkFound);
+      if (linkFound != null) {
+        linkFound.click();
+      }
+    } else {
+      const links = bodyLinks();
+      const linkFound = links[num - 1];
+      console.log('linkFound', linkFound);
+      if (linkFound != null) {
+        const url = linkFound.getAttribute('href');
+        window.open(url, '_blank');
+      }
+    }
   } else if (e.metaKey && e.key === 'Enter') {
     console.log('got meta enter (before others)');
     const markCompleteSelector = 'div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal div.PrimaryButton';
     const element = document.querySelector(markCompleteSelector);
     if (element != null) {
-      console.log('single element', element);
-      console.log(e);
       element.click();
     }
   }
