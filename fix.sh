@@ -43,12 +43,12 @@ ensure_node_versions() {
   set -u
 }
 
-ensure_npm() {
-  npm install -g npm
+ensure_yarn() {
+  npm install -g yarn
 }
 
 ensure_npm_modules() {
-  npm install
+  yarn install
 }
 
 apt_upgraded=0
@@ -390,7 +390,7 @@ ensure_nvm
 
 ensure_node_versions
 
-ensure_npm
+ensure_yarn
 
 ensure_npm_modules
 
