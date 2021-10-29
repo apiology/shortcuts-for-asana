@@ -38,6 +38,11 @@ function shortcutsKeyDownBeforeOthers(e) {
         window.open(url, '_blank');
       }
     }
+  } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
+    const element = document.querySelector('div.RemoveButton');
+    if (element != null) {
+      element.click();
+    }
   } else if (e.metaKey && e.key === 'Enter') {
     console.log('got meta enter (before others)');
     const markCompleteSelector = 'div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal div.PrimaryButton';
