@@ -62,7 +62,12 @@ function shortcutsKeyDownAfterOthers(e) {
     const element = document.querySelector('div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal');
     if (element == null) {
       // don't switch task if the cmd-enter key created a modal
-      firstTextArea.click();
+      const isOnSubtask = document.activeElement.parentElement.classList.contains('SubtaskTaskRow-taskName');
+      console.log({ isOnSubtask });
+      if (!isOnSubtask) {
+        // don't switch task if a subtask was marked done
+        firstTextArea.click();
+      }
     }
   }
 }
