@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    background: ['./src/content-script.ts', './src/shortcuts_for_asana.ts'],
+    background: ['./src/content-script.ts'],
   },
   // https://webpack.js.org/guides/typescript/
   module: {

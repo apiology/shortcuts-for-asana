@@ -2,9 +2,6 @@
   "name": "Shortcuts for Asana",
   "description": "Chrome extension which adds missing keyboard shortcuts/behavior to Asana",
   "version": "0.1.0",
-  "permissions": [
-    "activeTab"
-  ],
   "content_scripts": [
     {
       "matches": ["https://app.asana.com/*"],
