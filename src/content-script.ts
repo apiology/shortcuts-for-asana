@@ -1,3 +1,9 @@
+/**
+ * content-script.ts module.
+ *
+ * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
+ */
+
 import { logError } from './error';
 
 const dependencyLinks = (): HTMLElement[] => {
