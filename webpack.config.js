@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    background: ['./src/content-script.ts'],
+    'content-script': ['./src/content-script.ts'],
   },
   // https://webpack.js.org/guides/typescript/
   module: {
