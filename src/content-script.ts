@@ -47,6 +47,7 @@ const removeAssignee = () => {
   const element = document.querySelector('div.RemoveButton');
   if (element != null && element instanceof HTMLElement) {
     element.click();
+    focusOnFirstTask();
   }
 };
 
