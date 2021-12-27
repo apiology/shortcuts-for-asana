@@ -1,6 +1,6 @@
 # Shortcuts for Asana
 
-[![CircleCI](https://circleci.com/gh/apiology/shortcuts_for_asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts_for_asana)
+[![CircleCI](https://circleci.com/gh/apiology/shortcuts-for-asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts-for-asana)
 
 Chrome extension which adds missing keyboard shortcuts/behavior to Asana.
 
@@ -36,7 +36,7 @@ shortcuts for those tasks:
 * cmd-enter: mark the original task as complete and close the dialog.
 
 (see [Upvoter for
-Asana](https://github.com/apiology/upvoter_for_asana) for an
+Asana](https://github.com/apiology/upvoter-for-asana) for an
 interesting use for these links!)
 
 ## Installing
