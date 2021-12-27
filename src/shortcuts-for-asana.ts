@@ -1,5 +1,5 @@
 /**
- * shortcuts_for_asana module.
+ * shortcuts-for-asana module.
  *
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */

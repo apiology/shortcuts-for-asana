@@ -6,7 +6,7 @@
     "open_source_license": "MIT license",
     "project_name": "Shortcuts for Asana",
     "project_short_description": "Chrome extension which adds missing keyboard shortcuts/behavior to Asana",
-    "project_slug": "shortcuts_for_asana",
+    "project_slug": "shortcuts-for-asana",
     "type_of_github_repo": "public",
     "version": "0.1.0"
 }

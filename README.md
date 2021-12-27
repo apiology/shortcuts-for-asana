@@ -1,6 +1,6 @@
 # Shortcuts for Asana
 
-[![CircleCI](https://circleci.com/gh/apiology/shortcuts_for_asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts_for_asana)
+[![CircleCI](https://circleci.com/gh/apiology/shortcuts-for-asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts-for-asana)
 
 WARNING: This is not ready for use yet!
 
