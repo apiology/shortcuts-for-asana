@@ -3,6 +3,7 @@
   "description": "Chrome extension which adds missing keyboard shortcuts/behavior to Asana",
   "version": "0.1.0",
   "icons": {
+    "16": "docs/apiology-16x16.png",
     "48": "docs/apiology-48x48.png",
     "128": "docs/apiology-128x128.png"
   },
