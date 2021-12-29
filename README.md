@@ -1,6 +1,6 @@
 # Shortcuts for Asana
 
-[![CircleCI](https://circleci.com/gh/apiology/shortcuts_for_asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts_for_asana)
+[![CircleCI](https://circleci.com/gh/apiology/shortcuts-for-asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts-for-asana)
 
 Chrome extension which adds missing keyboard shortcuts/behavior to Asana.
 
@@ -31,12 +31,12 @@ If you mark a task done which has dependent tasks, links to those
 tasks appear in the warning dialog.  Shortcuts for Asana adds keyboard
 shortcuts for those tasks:
 
-* cmd-ctrl-1: upvote first task in the dependent task warning dialog.
+* cmd-ctrl-1: click on first task in the dependent task warning dialog.
 * cmd-ctrl-2...: etc
 * cmd-enter: mark the original task as complete and close the dialog.
 
 (see [Upvoter for
-Asana](https://github.com/apiology/upvoter_for_asana) for an
+Asana](https://github.com/apiology/upvoter-for-asana) for an
 interesting use for these links!)
 
 ## Installing
@@ -49,4 +49,4 @@ development experience!
 2. Go to [chrome://extensions/](chrome://extensions/)
 3. Make sure 'Developer mode' is flipped on in the upper right.
 4. Click the 'Load unpacked' button.
-5. Choose this directory
+5. Choose the [dist](./dist) directory
