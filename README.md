@@ -31,7 +31,7 @@ If you mark a task done which has dependent tasks, links to those
 tasks appear in the warning dialog.  Shortcuts for Asana adds keyboard
 shortcuts for those tasks:
 
-* cmd-ctrl-1: upvote first task in the dependent task warning dialog.
+* cmd-ctrl-1: click on first task in the dependent task warning dialog.
 * cmd-ctrl-2...: etc
 * cmd-enter: mark the original task as complete and close the dialog.
 
