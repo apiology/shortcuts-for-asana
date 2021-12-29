@@ -15,3 +15,8 @@ quality checks.  `bundle exec overcommit --install` will install it.
 
 This project uses direnv to manage environment variables used during
 development.  See the `.envrc` file for detail.
+
+## Releasing to Chrome Web Store
+
+1. `make clean && make`
+2. Update [package.zip](./package.zip) in [developer dashboard](https://chrome.google.com/u/1/webstore/devconsole/d34ba2e8-8b5a-4417-889e-4047c35522d0) as `apiology-cws` user.
