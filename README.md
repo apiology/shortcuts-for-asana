@@ -17,7 +17,7 @@ You can now remove the assignee of a task using cmd-ctrl-r.
 When you mark a task complete using cmd-enter in the task list view,
 Shortcuts for Asana will return your focus to the first open task.
 
-![Example screenshot](./docs/screenshot-1.png)
+![Example screenshot](./docs/screenshot-1.png){ width=50% }
 
 ### Task Description
 
