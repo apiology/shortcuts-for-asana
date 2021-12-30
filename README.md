@@ -6,7 +6,6 @@
 
 Chrome extension which adds missing keyboard shortcuts/behavior to Asana.
 
-Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
 
 ## Using
 
@@ -41,4 +40,6 @@ shortcuts for those tasks:
 Asana](https://github.com/apiology/upvoter-for-asana) for an
 interesting use for these links!)
 
+## Legal
 
+Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
