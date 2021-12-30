@@ -25,6 +25,8 @@ keyboard shortcuts for those tasks:
 * cmd-ctrl-1: open the first link in a new tab
 * cmd-ctrl-2...: etc
 
+<img src="./docs/screenshot-1.png" alt="screenshot showing Asana task description and repeating above keystrokes" height="400"/>
+
 ### Dependent Task Dialog
 
 If you mark a task done which has dependent tasks, links to those
@@ -38,6 +40,8 @@ shortcuts for those tasks:
 (see [Upvoter for
 Asana](https://github.com/apiology/upvoter-for-asana) for an
 interesting use for these links!)
+
+<img src="./docs/screenshot-2.png" alt="screenshot showing Asana dependent task dialog while closing a task and repeating above keystrokes" height="400"/>
 
 ## Legal
 
