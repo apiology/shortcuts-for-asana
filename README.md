@@ -2,10 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/apiology/shortcuts-for-asana.svg?style=svg)](https://circleci.com/gh/apiology/shortcuts-for-asana)
 
-[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](https://chrome.google.com/webstore/detail/shortcuts-for-asana/oaofildmfdagenngppcgdgmonboohjil)
-
 Chrome extension which adds missing keyboard shortcuts/behavior to Asana.
 
+[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](https://chrome.google.com/webstore/detail/shortcuts-for-asana/oaofildmfdagenngppcgdgmonboohjil)
 
 ## Using
 
