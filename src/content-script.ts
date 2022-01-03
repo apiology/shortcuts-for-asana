@@ -4,8 +4,6 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 
-import { logError } from './error';
-
 const dependencyLinks = (): HTMLElement[] => {
   const links: HTMLElement[] = [];
   const bodyNodesClassName = 'CompleteTaskWithIncompletePrecedentTasksConfirmationModal-bodyNode';
@@ -17,7 +15,7 @@ const dependencyLinks = (): HTMLElement[] => {
       if (element instanceof HTMLElement) {
         links.push(element);
       } else {
-        logError('Element is not an HTMLElement!');
+        throw new Error('Element is not an HTMLElement!');
       }
     }
   }
@@ -34,7 +32,7 @@ const focusOnFirstTask = () => {
   console.log('trying to focus on first task');
   const firstTextArea = document.querySelector('textarea.SpreadsheetTaskName-input');
   if (firstTextArea == null || !(firstTextArea instanceof HTMLElement)) {
-    logError('Invalid text area');
+    throw new Error('Invalid text area');
   }
   console.log('first text area', firstTextArea);
 
@@ -102,7 +100,7 @@ const markTaskComplete = () => {
     // don't switch task if the cmd-enter key created a modal
     const classes = document.activeElement?.parentElement?.classList;
     if (classes == null) {
-      logError('Could not find element');
+      throw new Error('Could not find element');
     }
     const isOnSubtask = classes.contains('SubtaskTaskRow-taskName');
     console.log({ isOnSubtask });
