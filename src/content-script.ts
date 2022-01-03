@@ -79,6 +79,13 @@ const openLink = (num: number) => {
   }
 };
 
+const clickRefineSearchButton = () => {
+  const element = document.querySelector('.SearchGridPageToolbar-advancedSearchButton');
+  if (element != null && element instanceof HTMLElement) {
+    element.click();
+  }
+};
+
 console.log('Defining shortcutsKeyDownBeforeOthers');
 const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
@@ -90,6 +97,8 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
     removeAssignee();
   } else if (e.metaKey && e.key === 'Enter') {
     markTaskWithIncompleteDependentsDialogComplete();
+  } else if (e.ctrlKey && e.key === 'r') {
+    clickRefineSearchButton();
   }
 };
 
