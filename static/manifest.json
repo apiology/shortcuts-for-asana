@@ -2,11 +2,17 @@
   "name": "Shortcuts for Asana",
   "description": "Chrome extension which adds missing keyboard shortcuts/behavior to Asana",
   "version": "0.1.0",
+  "icons": {
+    "16": "apiology-16x16.png",
+    "48": "apiology-48x48.png",
+    "128": "apiology-128x128.png"
+  },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "background": {
-    "scripts": ["dist/background.js"],
+    "scripts": ["background.js"],
     "persistent": false
   },
   "browser_action": {
