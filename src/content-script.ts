@@ -4,6 +4,24 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 
+const findElement = (selector: string): HTMLElement | null => {
+  const element = document.querySelector(selector);
+  if (element != null) {
+    if (!(element instanceof HTMLElement)) {
+      throw Error(`Unexpected element type: ${element}`);
+    }
+    return element;
+  }
+  return null;
+};
+
+const clickOnElement = (selector: string): void => {
+  const element = findElement(selector);
+  if (element != null) {
+    element.click();
+  }
+};
+
 const dependencyLinks = (): HTMLElement[] => {
   const links: HTMLElement[] = [];
   const bodyNodesClassName = 'CompleteTaskWithIncompletePrecedentTasksConfirmationModal-bodyNode';
@@ -30,8 +48,8 @@ const bodyLinks = () => Array.from(document.querySelectorAll('.PrimaryNavigation
 
 const focusOnFirstTask = () => {
   console.log('trying to focus on first task');
-  const firstTextArea = document.querySelector('textarea.SpreadsheetTaskName-input');
-  if (firstTextArea == null || !(firstTextArea instanceof HTMLElement)) {
+  const firstTextArea = findElement('textarea.SpreadsheetTaskName-input');
+  if (firstTextArea == null) {
     throw new Error('Invalid text area');
   }
   console.log('first text area', firstTextArea);
@@ -42,8 +60,8 @@ const focusOnFirstTask = () => {
 
 const removeAssignee = () => {
   console.log('trying to remove assignee');
-  const element = document.querySelector('div.RemoveButton');
-  if (element != null && element instanceof HTMLElement) {
+  const element = findElement('div.RemoveButton');
+  if (element != null) {
     element.click();
     focusOnFirstTask();
   }
@@ -52,10 +70,7 @@ const removeAssignee = () => {
 const markTaskWithIncompleteDependentsDialogComplete = () => {
   console.log('got meta enter (before others)');
   const markCompleteSelector = 'div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal div.PrimaryButton';
-  const element = document.querySelector(markCompleteSelector);
-  if (element != null && element instanceof HTMLElement) {
-    element.click();
-  }
+  clickOnElement(markCompleteSelector);
 };
 
 const openLink = (num: number) => {
@@ -80,10 +95,7 @@ const openLink = (num: number) => {
 };
 
 const clickRefineSearchButton = () => {
-  const element = document.querySelector('.SearchGridPageToolbar-advancedSearchButton');
-  if (element != null && element instanceof HTMLElement) {
-    element.click();
-  }
+  clickOnElement('.SearchGridPageToolbar-advancedSearchButton');
 };
 
 console.log('Defining shortcutsKeyDownBeforeOthers');
@@ -104,7 +116,7 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
 
 const markTaskComplete = () => {
   console.log('got meta enter (after others)');
-  const element = document.querySelector('div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal');
+  const element = findElement('div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal');
   if (element == null) {
     // don't switch task if the cmd-enter key created a modal
     const classes = document.activeElement?.parentElement?.classList;
