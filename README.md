@@ -10,8 +10,13 @@ Chrome extension which adds missing keyboard shortcuts/behavior to Asana.
 
 ### Tasks
 
-* Remove the assignee of a task using cmd-ctrl-r.
-* Assign the time of a task with ctrl-t
+Remove the assignee of a task using cmd-ctrl-r:
+
+<img src="./docs/screenshot-4.png" alt="screenshot showing Asana task with an assignee" height="400"/>
+
+Assign the time of a task with ctrl-t:
+
+<img src="./docs/screenshot-3.png" alt="screenshot showing Asana task with cursor in time field" height="400"/>
 
 ### Task List
 
@@ -21,6 +26,8 @@ Shortcuts for Asana will return your focus to the first open task.
 ## Search Results
 
 ctrl-r will click the 'Refine search' button.
+
+<img src="./docs/screenshot-5.png" alt="screenshot showing a search results screen" height="400"/>
 
 ### Task Description
 
