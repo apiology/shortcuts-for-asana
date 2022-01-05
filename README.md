@@ -10,7 +10,8 @@ Chrome extension which adds missing keyboard shortcuts/behavior to Asana.
 
 ### Tasks
 
-You can now remove the assignee of a task using cmd-ctrl-r.
+* Remove the assignee of a task using cmd-ctrl-r.
+* Assign the time of a task with ctrl-t
 
 ### Task List
 

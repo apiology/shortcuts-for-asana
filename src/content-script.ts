@@ -98,6 +98,13 @@ const clickRefineSearchButton = () => {
   clickOnElement('.SearchGridPageToolbar-advancedSearchButton');
 };
 
+const selectTaskTime = () => {
+  clickOnElement('.TaskDueDateToken > div');
+  const clockIcon = document.querySelector('.ClockIcon');
+  clockIcon?.parentElement?.click();
+  findElement('#due_time_view_select')?.focus();
+};
+
 console.log('Defining shortcutsKeyDownBeforeOthers');
 const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
@@ -111,6 +118,9 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
     markTaskWithIncompleteDependentsDialogComplete();
   } else if (e.ctrlKey && e.key === 'r') {
     clickRefineSearchButton();
+  } else if (e.ctrlKey && e.key === 't') {
+    console.log('selectTaskTime()');
+    selectTaskTime();
   }
 };
 
