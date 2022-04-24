@@ -6,7 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin'); // eslint-disable-line @types
 
 module.exports = {
   entry: {
-    background: ['./src/background.ts', './src/shortcuts-for-asana.ts'],
+    background: ['./src/background.ts'],
   },
   // https://webpack.js.org/guides/typescript/
   module: {
@@ -23,7 +23,7 @@ module.exports = {
   //
   // https://stackoverflow.com/questions/43595555/webpack-cant-resolve-typescript-modules
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   mode: 'development', // override with webpack --mode=production on CLI builds
   output: {
