@@ -55,6 +55,10 @@ interesting use for these links!)
 
 <img src="./docs/screenshot-2.png" alt="screenshot showing Asana dependent task dialog while closing a task and repeating above keystrokes" height="400"/>
 
+## Installing Chrome Extension
+
+[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/tbyBjqi7Zu733AAKA5n4.png)](https://chrome.google.com/webstore/detail/shortcuts-for-asana/oaofildmfdagenngppcgdgmonboohjil)
+
 ## Legal
 
 Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
