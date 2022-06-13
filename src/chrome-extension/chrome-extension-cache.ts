@@ -11,8 +11,15 @@ export function isString(value: any): value is string {
 export function isBoolean(value: any): value is boolean {
   return typeof value === 'boolean' || value instanceof Boolean;
 }
+
+// https://stackoverflow.com/a/67850394/2625807
+export function isNumber(value: any): value is number {
+  return typeof value === 'number' || value instanceof Number;
+}
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+export function chromeStorageSyncFetch(key: string,
+  clazz: 'number'): Promise<number | null>;
 export function chromeStorageSyncFetch(key: string,
   clazz: 'string'): Promise<string | null>;
 export function chromeStorageSyncFetch(key: string,
@@ -20,8 +27,8 @@ export function chromeStorageSyncFetch(key: string,
 export function chromeStorageSyncFetch<T>(key: string,
   clazz: Class<T>): Promise<T | null>;
 export function chromeStorageSyncFetch<T>(key: string,
-  clazz: Class<T> | 'string' | 'boolean'):
-  Promise<T | boolean | string | null> {
+  clazz: Class<T> | 'number' | 'string' | 'boolean'):
+  Promise<T | boolean | string | number | null> {
   return new Promise((resolve) => {
     chrome.storage.sync.get([key], (result) => {
       const output = result[key];
@@ -39,6 +46,12 @@ export function chromeStorageSyncFetch<T>(key: string,
         } else {
           throw new Error(`config stored in chrome.storage.sync as ${key} not a boolean as expected (${typeof output}): ${output}`);
         }
+      } else if (clazz === 'number') {
+        if (isNumber(output)) {
+          resolve(output);
+        } else {
+          throw new Error(`config stored in chrome.storage.sync as ${key} not a number as expected (${typeof output}): ${output}`);
+        }
       } else if (output instanceof clazz) {
         resolve(output);
       } else {
@@ -48,8 +61,13 @@ export function chromeStorageSyncFetch<T>(key: string,
   });
 }
 
-export const chromeStorageSyncStore = (key: string, value: string) => {
-  const settings: { [index: string]: string } = {};
-  settings[key] = value;
-  chrome.storage.sync.set(settings);
-};
+export default class ChromeExtensionCache {
+  cacheFetch = async (key: string,
+    clazz: 'string'): Promise<string | null> => chromeStorageSyncFetch(key, clazz);
+
+  cacheStore = async (key: string, value: string): Promise<void> => {
+    const settings: { [index: string]: string } = {};
+    settings[key] = value;
+    chrome.storage.sync.set(settings);
+  }
+}
