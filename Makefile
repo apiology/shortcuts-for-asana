@@ -15,17 +15,20 @@ export PRINT_HELP_PYSCRIPT
 help:
 	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
+repl: ## Bring up an interactive JavaScript prompt
+	node
+
 webpack: ## run webpack and tie together modules for use by browser
 	npx webpack
 
-start: ## run webpack continuously and watch files
-	npm start
+chrome-extension-start: ## run webpack continuously and watch files
+	npm run chrome-extension-start
 
 build-chrome-extension: webpack
 
 build: build-chrome-extension
 
-default: build package quality ## run build and package up for the Chrome Extension
+default: build test package quality ## build, package up, test and check code quality for the Chrome Extension
 
 package: package-chrome-extension
 
@@ -55,7 +58,8 @@ bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
 clean: ## remove all built artifacts
 	rm -fr package.zip dist/chrome-extension/* || true
 
-test: webpack ## run tests quickly
+test: ## run tests quickly
+	npm test
 
 overcommit: ## run precommit quality checks
 	bundle exec overcommit --run

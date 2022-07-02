@@ -8,13 +8,13 @@ Chrome extension which adds missing keyboard shortcuts/behavior to Asana
 
 ## Using
 
-## Legal
-
-Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
-
 ## Installing Chrome Extension
 
 This isn't in the Chrome App Store - see [DEVELOPMENT.md](./DEVELOPMENT.md) for how to run from a local checkout.
+
+## Legal
+
+Not created, maintained, reviewed, approved, or endorsed by Asana, Inc.
 
 ## Contributions
 
