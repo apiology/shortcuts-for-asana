@@ -42,9 +42,10 @@ const dependencyLinks = (): HTMLElement[] => {
 
 // if no dependency dialog, let's pick out links in task descriptions...
 //
-// .PrimaryNavigationLink is a link to another entity in Asana
+// .ProsemirrorEditor .PrimaryNavigationLink is a link to another
+// entity in Asana inside the text editor window
 // .ProsemirrorEditor-link is a link to an outside site
-const bodyLinks = () => Array.from(document.querySelectorAll('.PrimaryNavigationLink,.ProsemirrorEditor-link'));
+const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .PrimaryNavigationLink, .ProsemirrorEditor-link'));
 
 const focusOnFirstTask = () => {
   console.log('trying to focus on first task');
