@@ -4,6 +4,11 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 
+import ChromeExtensionPlatform from './chrome-extension/chrome-extension-platform.js';
+
+const platform = new ChromeExtensionPlatform();
+const logger = platform.logger();
+
 const findElement = (selector: string): HTMLElement | null => {
   const element = document.querySelector(selector);
   if (element != null) {
@@ -15,11 +20,14 @@ const findElement = (selector: string): HTMLElement | null => {
   return null;
 };
 
-const clickOnElement = (selector: string): void => {
+const clickOnElement = (selector: string): boolean => {
   const element = findElement(selector);
   if (element != null) {
+    logger.log('Clicking on', element);
     element.click();
+    return true;
   }
+  return false;
 };
 
 const dependencyLinks = (): HTMLElement[] => {
@@ -48,44 +56,85 @@ const dependencyLinks = (): HTMLElement[] => {
 const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .PrimaryNavigationLink, .ProsemirrorEditor-link'));
 
 const focusOnFirstTask = () => {
-  console.log('trying to focus on first task');
+  logger.debug('trying to focus on first task');
   const firstTextArea = findElement('textarea.SpreadsheetTaskName-input');
   if (firstTextArea == null) {
     throw new Error('Invalid text area');
   }
-  console.log('first text area', firstTextArea);
+  logger.debug('first text area', firstTextArea);
 
+  logger.log('Switching to first task');
   // don't switch task if a subtask was marked done
   firstTextArea.click();
 };
 
 const removeAssignee = () => {
-  console.log('trying to remove assignee');
   const element = findElement('div.RemoveButton');
   if (element != null) {
+    logger.log('Removing assignee');
     element.click();
     focusOnFirstTask();
   }
 };
 
-const markTaskWithIncompleteDependentsDialogComplete = () => {
-  console.log('got meta enter (before others)');
+const afterTaskMarkedComplete = () => {
+  const classes = document.activeElement?.parentElement?.classList;
+  if (classes == null) {
+    throw new Error('Could not find element');
+  }
+  const isOnSubtask = classes.contains('SubtaskTaskRow-taskName');
+  logger.debug({ isOnSubtask });
+  if (!isOnSubtask) {
+    focusOnFirstTask();
+  }
+};
+
+const markTaskWithIncompleteDependentsDialogComplete = (e: KeyboardEvent): boolean => {
   const markCompleteSelector = 'div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal div.PrimaryButton';
-  clickOnElement(markCompleteSelector);
+  logger.debug('trying to click on confirmation modal');
+  if (clickOnElement(markCompleteSelector)) {
+    focusOnFirstTask();
+    // if the element was there and we clicked on it, don't let
+    // cmd-enter propagate.  We don't want the underlying task UI
+    // 'complete' button to receive it and then reopen the task...
+    logger.debug('stopping propagation');
+    e.stopPropagation();
+    return true;
+  }
+
+  // must not be an incomplete dependents dialog
+  return false;
+};
+
+const markTaskComplete = (e: KeyboardEvent) => {
+  logger.debug('got meta enter (before others)');
+  if (!markTaskWithIncompleteDependentsDialogComplete(e)) {
+    // this must be a task without dependents.  Asana will handle the
+    // cmd-enter event properly, but we want to be sure to flip back
+    // to the first task once it's done.
+    logger.debug('enqueuing request to move to first task');
+
+    // if we don't wait until it's marked the task done by processing
+    // the event, we'll flip over to the wrong task.  So enqueue this
+    // to be done after all current event processing.
+
+    // https://stackoverflow.com/questions/7760428/how-to-run-code-after-all-other-events-have-been-handled
+    window.setTimeout(afterTaskMarkedComplete, 0);
+  }
 };
 
 const openLink = (num: number) => {
   const dependencies = dependencyLinks();
   if (dependencies.length > 0) {
     const linkFound = dependencies[num - 1];
-    console.log('linkFound', linkFound);
+    logger.debug('linkFound', linkFound);
     if (linkFound != null) {
       linkFound.click();
     }
   } else {
     const links = bodyLinks();
     const linkFound = links[num - 1];
-    console.log('linkFound', linkFound);
+    logger.debug('linkFound', linkFound);
     if (linkFound != null) {
       const url = linkFound.getAttribute('href');
       if (url != null) {
@@ -103,10 +152,10 @@ const selectTaskTime = () => {
   clickOnElement('.TaskDueDateToken > div');
   const clockIcon = document.querySelector('.ClockIcon');
   clockIcon?.parentElement?.click();
+  logger.log('Attempting to set focus on due time');
   findElement('#due_time_view_select')?.focus();
 };
 
-console.log('Defining shortcutsKeyDownBeforeOthers');
 const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
   const nonZeroDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -116,36 +165,11 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
     removeAssignee();
   } else if (e.metaKey && e.key === 'Enter') {
-    markTaskWithIncompleteDependentsDialogComplete();
+    markTaskComplete(e);
   } else if (e.ctrlKey && e.key === 'r') {
     clickRefineSearchButton();
   } else if (e.ctrlKey && e.key === 't') {
-    console.log('selectTaskTime()');
     selectTaskTime();
-  }
-};
-
-const markTaskComplete = () => {
-  console.log('got meta enter (after others)');
-  const element = findElement('div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal');
-  if (element == null) {
-    // don't switch task if the cmd-enter key created a modal
-    const classes = document.activeElement?.parentElement?.classList;
-    if (classes == null) {
-      throw new Error('Could not find element');
-    }
-    const isOnSubtask = classes.contains('SubtaskTaskRow-taskName');
-    console.log({ isOnSubtask });
-    if (!isOnSubtask) {
-      focusOnFirstTask();
-    }
-  }
-};
-
-console.log('Defining shortcutsKeyDownAfterOthers');
-const shortcutsKeyDownAfterOthers = (e: KeyboardEvent) => {
-  if (e.metaKey && e.key === 'Enter') {
-    markTaskComplete();
   }
 };
 
@@ -154,7 +178,4 @@ const shortcutsKeyDownAfterOthers = (e: KeyboardEvent) => {
 // up, and when it was already up and the user wants to confirm to
 // close the task.
 document.addEventListener('keydown', shortcutsKeyDownBeforeOthers, { capture: true });
-console.log('Registered keydown listener', shortcutsKeyDownBeforeOthers);
-
-document.addEventListener('keydown', shortcutsKeyDownAfterOthers, { capture: false });
-console.log('Registered keydown listener', shortcutsKeyDownAfterOthers);
+logger.log('Registered keydown listener', shortcutsKeyDownBeforeOthers);
