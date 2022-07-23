@@ -4,6 +4,11 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 
+import ChromeExtensionPlatform from './chrome-extension/chrome-extension-platform.js';
+
+const platform = new ChromeExtensionPlatform();
+const logger = platform.logger();
+
 const findElement = (selector: string): HTMLElement | null => {
   const element = document.querySelector(selector);
   if (element != null) {
@@ -48,21 +53,21 @@ const dependencyLinks = (): HTMLElement[] => {
 const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .PrimaryNavigationLink, .ProsemirrorEditor-link'));
 
 const focusOnFirstTask = () => {
-  console.log('trying to focus on first task');
+  logger.debug('trying to focus on first task');
   const firstTextArea = findElement('textarea.SpreadsheetTaskName-input');
   if (firstTextArea == null) {
     throw new Error('Invalid text area');
   }
-  console.log('first text area', firstTextArea);
+  logger.debug('first text area', firstTextArea);
 
   // don't switch task if a subtask was marked done
   firstTextArea.click();
 };
 
 const removeAssignee = () => {
-  console.log('trying to remove assignee');
   const element = findElement('div.RemoveButton');
   if (element != null) {
+    logger.log('Removing assignee');
     element.click();
     focusOnFirstTask();
   }
@@ -78,14 +83,14 @@ const openLink = (num: number) => {
   const dependencies = dependencyLinks();
   if (dependencies.length > 0) {
     const linkFound = dependencies[num - 1];
-    console.log('linkFound', linkFound);
+    logger.debug('linkFound', linkFound);
     if (linkFound != null) {
       linkFound.click();
     }
   } else {
     const links = bodyLinks();
     const linkFound = links[num - 1];
-    console.log('linkFound', linkFound);
+    logger.debug('linkFound', linkFound);
     if (linkFound != null) {
       const url = linkFound.getAttribute('href');
       if (url != null) {
@@ -106,7 +111,6 @@ const selectTaskTime = () => {
   findElement('#due_time_view_select')?.focus();
 };
 
-console.log('Defining shortcutsKeyDownBeforeOthers');
 const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
   const nonZeroDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -120,7 +124,6 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   } else if (e.ctrlKey && e.key === 'r') {
     clickRefineSearchButton();
   } else if (e.ctrlKey && e.key === 't') {
-    console.log('selectTaskTime()');
     selectTaskTime();
   }
 };
