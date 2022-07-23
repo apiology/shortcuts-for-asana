@@ -23,6 +23,7 @@ const findElement = (selector: string): HTMLElement | null => {
 const clickOnElement = (selector: string): void => {
   const element = findElement(selector);
   if (element != null) {
+    logger.log('Clicking on', element);
     element.click();
   }
 };
@@ -60,6 +61,7 @@ const focusOnFirstTask = () => {
   }
   logger.debug('first text area', firstTextArea);
 
+  logger.log('Switching to first task');
   // don't switch task if a subtask was marked done
   firstTextArea.click();
 };
@@ -108,6 +110,7 @@ const selectTaskTime = () => {
   clickOnElement('.TaskDueDateToken > div');
   const clockIcon = document.querySelector('.ClockIcon');
   clockIcon?.parentElement?.click();
+  logger.log('Attempting to set focus on due time');
   findElement('#due_time_view_select')?.focus();
 };
 
