@@ -1,10 +1,12 @@
 import Logger from './logger.js';
 import Formatter from './formatter.js';
 
-export abstract class Platform {
-  abstract logger(): Logger;
+interface Platform {
+  cache(): Cache;
 
-  abstract formatter(): Formatter;
+  logger(): Logger;
+
+  formatter(): Formatter;
 }
 
 let thePlatform: Platform | null = null;
