@@ -145,7 +145,7 @@ const openLink = (num: number) => {
 };
 
 const clickRefineSearchButton = () => {
-  clickOnElement('.SearchGridPageToolbar-advancedSearchButton');
+  clickOnElement('.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
 };
 
 const selectTaskTime = () => {
