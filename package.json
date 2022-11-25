@@ -59,8 +59,9 @@
     },
     "transform": {
       "^.+\\.(ts|tsx)$": [
-        "ts-jest", {
-        "useESM": true
+        "ts-jest",
+        {
+          "useESM": true
         }
       ]
     },

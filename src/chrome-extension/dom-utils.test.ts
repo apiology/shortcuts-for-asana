@@ -2,13 +2,13 @@
  * @jest-environment jsdom
  */
 
-import { htmlElement, waitForElement, parent } from './dom-utils.js';
+import { htmlElementById, waitForElement, parent } from './dom-utils.js';
 
 afterEach(() => {
   document.body.innerHTML = '';
 });
 
-test('htmlElement', async () => {
+test('htmlElementById', async () => {
   document.body.innerHTML = `
 <div>
   <div id='foo'>1</div>
@@ -17,7 +17,7 @@ test('htmlElement', async () => {
 </div>
 `;
 
-  const bar: HTMLDivElement = htmlElement('bar', HTMLDivElement);
+  const bar: HTMLDivElement = htmlElementById('bar', HTMLDivElement);
   expect(bar.textContent).toBe('2');
 });
 
@@ -31,10 +31,10 @@ test('htmlElementBadHtmlWrongId', async () => {
   <div id='baz'>3</div>
 </div>
 `;
-  expect(() => htmlElement('bing', HTMLDivElement)).toThrowError("Couldn't find element with id bing");
+  expect(() => htmlElementById('bing', HTMLDivElement)).toThrowError("Couldn't find element with id bing");
 });
 
-test('htmlElementBadHtmlWrongElement', async () => {
+test('htmlElementByIdBadHtmlWrongElement', async () => {
   // code is expecting this to be an a element, not a div - verify
   // we throw a useful error
 
@@ -45,7 +45,7 @@ test('htmlElementBadHtmlWrongElement', async () => {
   <div id='baz'>3</div>
 </div>
 `;
-  expect(() => htmlElement('foo', HTMLAnchorElement)).toThrowError('element with id foo not an HTMLAnchorElement as expected');
+  expect(() => htmlElementById('foo', HTMLAnchorElement)).toThrowError('element with id foo not an HTMLAnchorElement as expected');
 });
 
 test('waitForElementAlreadyExists', async () => {
