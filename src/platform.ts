@@ -1,21 +1,21 @@
 import Logger from './logger.js';
 import Formatter from './formatter.js';
 
-interface Platform {
+interface IPlatform {
   logger(): Logger;
 
   formatter(): Formatter;
 }
 
-let thePlatform: Platform | null = null;
+let thePlatform: IPlatform | null = null;
 
-export const platform = (): Platform => {
+export const platform = (): IPlatform => {
   if (thePlatform == null) {
     throw Error('Please call setPlatform() before use');
   }
   return thePlatform;
 };
 
-export const setPlatform = (newPlatform: Platform) => {
+export const setPlatform = (newPlatform: IPlatform) => {
   thePlatform = newPlatform;
 };
