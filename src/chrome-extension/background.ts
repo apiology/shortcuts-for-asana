@@ -5,7 +5,7 @@
  */
 
 import { setPlatform } from '../platform.js';
-import ChromeExtensionPlatform from './chrome-extension-platform.js';
+import { ChromeExtensionPlatform } from './chrome-extension-platform.js';
 import { doWork } from '../shortcuts-for-asana.js';
 
 setPlatform(new ChromeExtensionPlatform());
