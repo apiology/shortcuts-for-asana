@@ -23,7 +23,7 @@ test('htmlElementById', async () => {
   expect(bar.textContent).toBe('2');
 });
 
-test('htmlElementBadHtmlWrongId', async () => {
+test('htmlElementByIdBadHtmlWrongId', async () => {
   // look for an ID which doesn't exist...
 
   document.body.innerHTML = `
@@ -63,7 +63,7 @@ test('htmlElementByClass', async () => {
   expect(bar.textContent).toBe('2');
 });
 
-test('htmlElementBadHtmlWrongId', async () => {
+test('htmlElementByClassBadHtmlWrongClass', async () => {
   // look for an ID which doesn't exist...
 
   document.body.innerHTML = `
@@ -74,6 +74,17 @@ test('htmlElementBadHtmlWrongId', async () => {
 </div>
 `;
   expect(() => htmlElementByClass('bing', HTMLDivElement)).toThrowError("Couldn't find element with class bing");
+});
+
+test('htmlElementByClassBadHtmlTooMany', async () => {
+  document.body.innerHTML = `
+<div>
+  <div class='foo'>1</div>
+  <div class='foo'>2</div>
+  <div class='baz'>3</div>
+</div>
+`;
+  expect(() => htmlElementByClass('foo', HTMLDivElement)).toThrowError('More than one element found with class foo');
 });
 
 test('htmlElementByClassBadHtmlWrongElement', async () => {
