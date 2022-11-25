@@ -173,9 +173,11 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   }
 };
 
-// capture: true ensures that we can differentiate between the
-// cmd-enter key event when the dependent dialog is initially brought
-// up, and when it was already up and the user wants to confirm to
-// close the task.
-document.addEventListener('keydown', shortcutsKeyDownBeforeOthers, { capture: true });
-logger.log('Registered keydown listener', shortcutsKeyDownBeforeOthers);
+export const initializeContentScript = () => {
+  // capture: true ensures that we can differentiate between the
+  // cmd-enter key event when the dependent dialog is initially brought
+  // up, and when it was already up and the user wants to confirm to
+  // close the task.
+  document.addEventListener('keydown', shortcutsKeyDownBeforeOthers, { capture: true });
+  logger.log('Registered keydown listener', shortcutsKeyDownBeforeOthers);
+};
