@@ -4,7 +4,7 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 
-import ChromeExtensionPlatform from './chrome-extension/chrome-extension-platform.js';
+import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
 
 const platform = new ChromeExtensionPlatform();
 const logger = platform.logger();
@@ -156,7 +156,7 @@ const selectTaskTime = () => {
   findElement('#due_time_view_select')?.focus();
 };
 
-const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
+export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
   const nonZeroDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   if (e.metaKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
@@ -172,10 +172,3 @@ const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
     selectTaskTime();
   }
 };
-
-// capture: true ensures that we can differentiate between the
-// cmd-enter key event when the dependent dialog is initially brought
-// up, and when it was already up and the user wants to confirm to
-// close the task.
-document.addEventListener('keydown', shortcutsKeyDownBeforeOthers, { capture: true });
-logger.log('Registered keydown listener', shortcutsKeyDownBeforeOthers);
