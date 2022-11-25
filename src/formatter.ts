@@ -1,1 +1,1 @@
-export default abstract class Formatter {}
+export abstract class Formatter { }
