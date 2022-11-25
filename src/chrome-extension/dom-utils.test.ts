@@ -2,7 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { htmlElementById, waitForElement, parent } from './dom-utils.js';
+import {
+  htmlElementByClass, htmlElementById, waitForElement, parent,
+} from './dom-utils.js';
 
 afterEach(() => {
   document.body.innerHTML = '';
@@ -46,6 +48,46 @@ test('htmlElementByIdBadHtmlWrongElement', async () => {
 </div>
 `;
   expect(() => htmlElementById('foo', HTMLAnchorElement)).toThrowError('element with id foo not an HTMLAnchorElement as expected');
+});
+
+test('htmlElementByClass', async () => {
+  document.body.innerHTML = `
+<div>
+  <div class='foo'>1</div>
+  <div class='bar'>2</div>
+  <div class='baz'>3</div>
+</div>
+`;
+
+  const bar: HTMLDivElement = htmlElementByClass('bar', HTMLDivElement);
+  expect(bar.textContent).toBe('2');
+});
+
+test('htmlElementBadHtmlWrongId', async () => {
+  // look for an ID which doesn't exist...
+
+  document.body.innerHTML = `
+<div>
+  <div class='foo'>1</div>
+  <div class='bar'>2</div>
+  <div class='baz'>3</div>
+</div>
+`;
+  expect(() => htmlElementByClass('bing', HTMLDivElement)).toThrowError("Couldn't find element with class bing");
+});
+
+test('htmlElementByClassBadHtmlWrongElement', async () => {
+  // code is expecting this to be an a element, not a div - verify
+  // we throw a useful error
+
+  document.body.innerHTML = `
+<div>
+  <div class='foo'>1</div>
+  <div class='bar'>2</div>
+  <div class='baz'>3</div>
+</div>
+`;
+  expect(() => htmlElementByClass('foo', HTMLAnchorElement)).toThrowError('element with class foo not an HTMLAnchorElement as expected');
 });
 
 test('waitForElementAlreadyExists', async () => {
