@@ -1,5 +1,5 @@
-import Logger from './logger.js';
-import Formatter from './formatter.js';
+import { Logger } from './logger.js';
+import { Formatter } from './formatter.js';
 
 interface Platform {
   logger(): Logger;

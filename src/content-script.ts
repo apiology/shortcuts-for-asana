@@ -4,7 +4,7 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 
-import ChromeExtensionPlatform from './chrome-extension/chrome-extension-platform.js';
+import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
 
 const platform = new ChromeExtensionPlatform();
 const logger = platform.logger();
