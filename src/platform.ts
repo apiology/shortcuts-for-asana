@@ -2,8 +2,6 @@ import Logger from './logger.js';
 import Formatter from './formatter.js';
 
 interface Platform {
-  cache(): Cache;
-
   logger(): Logger;
 
   formatter(): Formatter;
