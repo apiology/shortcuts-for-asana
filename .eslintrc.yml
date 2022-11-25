@@ -99,5 +99,10 @@ rules:
   # https://github.com/typescript-eslint/typescript-eslint/issues/2540#issuecomment-692510509
   no-use-before-define: "off"
   "@typescript-eslint/no-use-before-define": warn
+overrides:
+  - files: ['src/shortcuts-for-asana.test.ts']
+    rules:
+      # long HTML block can't practically be broken up due to jest-test-environment madness
+      max-len: 'off'
 # arrow-body-style
 # https://github.com/airbnb/javascript/blob/35914b14025cd52f53cd2ae2f353cdc7384087c0/packages/eslint-config-airbnb-base/rules/es6.js#L15-L20

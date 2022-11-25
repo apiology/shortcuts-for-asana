@@ -5,9 +5,10 @@
  */
 
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
+import { platform } from './platform.js';
 
-const platform = new ChromeExtensionPlatform();
-const logger = platform.logger();
+const p = new ChromeExtensionPlatform();
+const logger = p.logger();
 
 const findElement = (selector: string): HTMLElement | null => {
   const element = document.querySelector(selector);
@@ -21,9 +22,11 @@ const findElement = (selector: string): HTMLElement | null => {
 };
 
 const clickOnElement = (selector: string): boolean => {
+  const l = platform().logger();
+
   const element = findElement(selector);
   if (element != null) {
-    logger.log('Clicking on', element);
+    l.debug('Clicking on', element);
     element.click();
     return true;
   }
@@ -145,7 +148,7 @@ const openLink = (num: number) => {
 };
 
 const clickRefineSearchButton = () => {
-  clickOnElement('.SearchGridPageToolbar-advancedSearchButton');
+  clickOnElement('.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
 };
 
 const selectTaskTime = () => {
