@@ -173,5 +173,6 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
     clickRefineSearchButton();
   } else if (e.ctrlKey && e.key === 't') {
     selectTaskTime();
+    e.preventDefault(); // don't transpose text
   }
 };
