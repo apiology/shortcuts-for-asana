@@ -62,6 +62,7 @@ const focusOnFirstTask = () => {
   logger.debug('trying to focus on first task');
   const firstTextArea = findElement('textarea.SpreadsheetTaskName-input');
   if (firstTextArea == null) {
+    logger.debug('must not be on task list page');
     return;
   }
   logger.debug('first text area', firstTextArea);
