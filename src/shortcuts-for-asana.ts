@@ -62,7 +62,8 @@ const focusOnFirstTask = () => {
   logger.debug('trying to focus on first task');
   const firstTextArea = findElement('textarea.SpreadsheetTaskName-input');
   if (firstTextArea == null) {
-    throw new Error('Invalid text area');
+    logger.debug('must not be on task list page');
+    return;
   }
   logger.debug('first text area', firstTextArea);
 
@@ -72,7 +73,7 @@ const focusOnFirstTask = () => {
 };
 
 const removeAssignee = () => {
-  const element = findElement('div.TaskPaneAssigneeToken-removeButton');
+  const element = findElement('#task_pane_assignee_input .RemoveButton');
   if (element != null) {
     logger.log('Removing assignee');
     element.click();
