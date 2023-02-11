@@ -53,10 +53,18 @@ const dependencyLinks = (): HTMLElement[] => {
 
 // if no dependency dialog, let's pick out links in task descriptions...
 //
-// .ProsemirrorEditor .PrimaryNavigationLink is a link to another
-// entity in Asana inside the text editor window
-// .ProsemirrorEditor-link is a link to an outside site
-const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .PrimaryNavigationLink, .ProsemirrorEditor-link'));
+// .ProsemirrorEditor .BaseLink is either a link to another entity in
+// Asana or a link associated with an Asana-integrated application
+// (e.g., GitHub) inside the text editor window
+// .ProsemirrorEditor-link is a link to an outside site and does not
+// include the BaseLink class as of 2023-02
+// Examples:
+// <a href="https://www.cnn.com/" class="ProsemirrorEditor-link">https://www.cnn.com/</a>
+// <a class="PrimaryNavigationLink BaseLink" href="https://app.asana.com/0/351345930591084/1203951076812433/f">Remove assignee no longer works in shortcuts</a>
+// <a target="_blank" rel="noreferrer noopener" class="PrimaryLink AppLinkToken-link BaseLink" href="https://github.com/apiology/shortcuts-for-asana/pull/71">https://github.com/apiology/shortcuts-for-asana/pull/71</a>
+const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link'));
+
+const customFieldLinks = () => Array.from(document.querySelectorAll('.CustomPropertyExternalLink-linkIcon'));
 
 const focusOnFirstTask = () => {
   logger.debug('trying to focus on first task');
@@ -136,7 +144,9 @@ const openLink = (num: number) => {
       linkFound.click();
     }
   } else {
-    const links = bodyLinks();
+    const cfLinks = customFieldLinks();
+    const bLinks = bodyLinks();
+    const links = cfLinks.concat(bLinks);
     const linkFound = links[num - 1];
     logger.debug('linkFound', linkFound);
     if (linkFound != null) {
