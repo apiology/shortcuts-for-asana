@@ -52,6 +52,10 @@
   },
   "dependencies": {
   },
+  "_json5ResolutionsComments": "json5 < 1.0.2 is vulnerable to CVE-2022-46175",
+  "resolutions": {
+    "**/json5": "^1.0.2"
+  },
   "__jest_comments": "https://kulshekhar.github.io/ts-jest/docs/guides/esm-support",
   "jest": {
     "preset": "ts-jest/presets/default-esm",
