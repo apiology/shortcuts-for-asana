@@ -18,4 +18,6 @@ export const escapeHTML = (str: string) => {
   return str.replace(/[&<>'"]/g, escape);
 };
 
-export class ChromeExtensionFormatter {}
+export class ChromeExtensionFormatter {
+  escapeDescriptionPlainText = escapeHTML;
+}
