@@ -60,7 +60,7 @@ const dependencyLinks = (): HTMLElement[] => {
 // include the BaseLink class as of 2023-02
 // Examples:
 // <a href="https://www.cnn.com/" class="ProsemirrorEditor-link">https://www.cnn.com/</a>
-// <a class="PrimaryNavigationLink BaseLink" href="https://app.asana.com/0/351345930591084/1203951076812433/f">Remove assignee no longer works in shortcuts</a>
+// <a class="PrimaryNavigationLink BaseLink" href="https://app.asana.com/0/123/456/f">Remove assignee no longer works in shortcuts</a>
 // <a target="_blank" rel="noreferrer noopener" class="PrimaryLink AppLinkToken-link BaseLink" href="https://github.com/apiology/shortcuts-for-asana/pull/71">https://github.com/apiology/shortcuts-for-asana/pull/71</a>
 const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link'));
 
