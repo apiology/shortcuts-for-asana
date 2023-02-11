@@ -62,7 +62,7 @@ const focusOnFirstTask = () => {
   logger.debug('trying to focus on first task');
   const firstTextArea = findElement('textarea.SpreadsheetTaskName-input');
   if (firstTextArea == null) {
-    throw new Error('Invalid text area');
+    return;
   }
   logger.debug('first text area', firstTextArea);
 
