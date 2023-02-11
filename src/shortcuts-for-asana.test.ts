@@ -37,3 +37,16 @@ test('removeAssignee', () => {
   shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, metaKey: true, key: 'r' }));
   expect(removeButton.click).toHaveBeenCalled();
 });
+
+test('openLink', () => {
+  document.body.innerHTML = '<html><div class="ProsemirrorEditor--withDraggableContent ProsemirrorEditor--withParagraphVSpacingNormal ProsemirrorEditor--withHeader1VSpacingNormal ProsemirrorEditor--withHeader2VSpacingNormal ProsemirrorEditor--withInlineAssetNormal ProsemirrorEditor--withTableVSpacingNormal ProsemirrorEditor--withHorizontalRuleVSpacingNormal ProsemirrorEditor--withProjectEmbedVSpacingNormal ProsemirrorEditor TextEditor3-prosemirrorEditor ProseMirror" tabindex="0" aria-label="Edit description for Be able to navigate through Asana project task view without mouse - just keyboard shortcuts" contenteditable="true" translate="no"><p class="ProsemirrorEditor-paragraph"><span data-app-link="1" data-object-id="123" data-href="https://github.com/apiology/shortcuts-for-asana/pull/71" contenteditable="false"><a href="https://www.cnn.com/" class="ProsemirrorEditor-link">https://www.cnn.com/</a></div></html>';
+  setPlatform(new TestPlatform());
+
+  const linkAnchor = htmlElementByClass('ProsemirrorEditor-link', HTMLAnchorElement);
+  if (linkAnchor == null) {
+    throw Error('linkAnchor was null!');
+  }
+  jest.spyOn(window, 'open').mockImplementation();
+  shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, metaKey: true, key: '1' }));
+  expect(window.open).toHaveBeenCalledWith('https://www.cnn.com/', '_blank');
+});
