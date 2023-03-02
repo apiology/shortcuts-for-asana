@@ -1,4 +1,5 @@
 {
+    "_output_dir": "/Users/broz/src/shortcuts-for-asana/.git/cookiecutter",
     "_template": "https://github.com/apiology/cookiecutter-chrome-extension",
     "asana_api": "no",
     "asana_related": "yes",
@@ -11,6 +12,7 @@
     "project_name": "Shortcuts for Asana",
     "project_short_description": "Chrome extension which adds missing keyboard shortcuts/behavior to Asana",
     "project_slug": "shortcuts-for-asana",
+    "service_worker": "no",
     "type_of_github_repo": "public",
     "version": "0.1.0"
 }
