@@ -3,7 +3,6 @@
  *
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
-
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
 import { platform } from './platform.js';
 
