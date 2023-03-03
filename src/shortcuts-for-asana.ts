@@ -161,10 +161,19 @@ const clickRefineSearchButton = () => {
   clickOnElement('.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
 };
 
+const dismissTaskTime = () => {
+  const dismissTaskTimeButton = document.querySelector('#task_pane_due_date_input > div.RemoveButton--isEnabled');
+  if ((dismissTaskTimeButton == null) || !(dismissTaskTimeButton instanceof HTMLElement)) {
+    return;
+  }
+  dismissTaskTimeButton.click();
+};
+
 const selectTaskTime = () => {
   clickOnElement('.TaskDueDateToken > div');
   const clockIcon = document.querySelector('.ClockIcon');
   clockIcon?.parentElement?.click();
+
   logger.log('Attempting to set focus on due time');
   findElement('#due_time_view_select')?.focus();
 };
@@ -182,6 +191,7 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   } else if (e.ctrlKey && e.key === 'r') {
     clickRefineSearchButton();
   } else if (e.ctrlKey && e.key === 't') {
+    dismissTaskTime();
     selectTaskTime();
     e.preventDefault(); // don't transpose text
   }
