@@ -50,3 +50,15 @@ test('openLink', () => {
   shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, metaKey: true, key: '1' }));
   expect(window.open).toHaveBeenCalledWith('https://www.cnn.com/', '_blank');
 });
+
+test('setting task time dismisses task time', () => {
+  document.body.innerHTML = '<html><div class="TaskDueDateToken"><div id="task_pane_due_date_input" class="ThemeableCardPresentation--isValid ThemeableCardPresentation ThemeableInteractiveCardPresentation--isNotSelected ThemeableInteractiveCardPresentation--isEnabled ThemeableInteractiveCardPresentation SubtleButtonCard SubtleTokenButton--editable SubtleTokenButton--subtle SubtleTokenButton DueDateTokenButton--dueDateSet DueDateTokenButton--editable DueDateTokenButton--past DueDateTokenButton TaskDueDateToken-tokenButton TaskDueDateToken--past" role="button" tabindex="0" aria-disabled="false" aria-describedby="task_pane_due_date_label" aria-expanded="false"><div class="SubtleTokenButton-leftIcon"><div class="DueDateTokenButton-icon"><svg class="Icon CalendarIcon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M24,2V1c0-0.6-0.4-1-1-1s-1,0.4-1,1v1H10V1c0-0.6-0.4-1-1-1S8,0.4,8,1v1C4.7,2,2,4.7,2,8v16c0,3.3,2.7,6,6,6h16c3.3,0,6-2.7,6-6V8C30,4.7,27.3,2,24,2z M8,4v1c0,0.6,0.4,1,1,1s1-0.4,1-1V4h12v1c0,0.6,0.4,1,1,1s1-0.4,1-1V4c2.2,0,4,1.8,4,4v2H4V8C4,5.8,5.8,4,8,4z M24,28H8c-2.2,0-4-1.8-4-4V12h24v12C28,26.2,26.2,28,24,28z"></path></svg></div></div><span class="DueDateTokenButton-label Typography Typography--overflowTruncate"><div class="DueDateWithRecurrence--small DueDateWithRecurrence DueDateWithRecurrence--past TaskDueDateToken-label"><div class="DueDate--canWrap DueDate DueDateWithRecurrence-dueDate DueDate--past"><span class="DueDate-dateSpan">Feb 22</span></div></div></span><div class="RemoveButton--isEnabled RemoveButton SubtleTokenButton-removeButton RemoveButton--small" role="button" tabindex="0" aria-label="Remove"><svg class="CompoundIcon--small CompoundIcon XCircleCompoundIcon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M31,16c0,8.3-6.7,15-15,15S1,24.3,1,16S7.7,1,16,1S31,7.7,31,16z" class="CompoundIcon-outer"></path><path d="M22.5,20.7c0.5,0.5,0.5,1.3,0,1.8c-0.2,0.2-0.5,0.4-0.9,0.4s-0.6-0.1-0.9-0.4L16,17.8l-4.7,4.7c-0.2,0.2-0.5,0.4-0.9,0.4s-0.6-0.1-0.9-0.4C9,22,9,21.2,9.5,20.7l4.7-4.7l-4.7-4.7C9,10.8,9,10,9.5,9.5c0.2-0.2,0.5-0.4,0.9-0.4s0.6,0.1,0.9,0.4l4.7,4.7l4.7-4.7c0.2-0.2,0.5-0.4,0.9-0.4s0.6,0.1,0.9,0.4c0.5,0.5,0.5,1.3,0,1.8L17.8,16L22.5,20.7z" class="CompoundIcon-inner"></path></svg></div></div></div></html>';
+  setPlatform(new TestPlatform());
+  const dismissTaskTimeButtonParent = document.querySelector('#task_pane_due_date_input > div.RemoveButton--isEnabled')?.parentElement;
+  if (dismissTaskTimeButtonParent == null) {
+    throw Error('dismissTaskTimeButtonParent was null!');
+  }
+  jest.spyOn(dismissTaskTimeButtonParent, 'click').mockImplementation();
+  shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, metaKey: false, key: 't' }));
+  expect(dismissTaskTimeButtonParent.click).toHaveBeenCalledWith();
+});
