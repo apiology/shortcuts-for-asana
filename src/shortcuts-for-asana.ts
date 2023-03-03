@@ -4,6 +4,7 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
+import { htmlElementByClass } from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
 const p = new ChromeExtensionPlatform();
@@ -162,6 +163,10 @@ const clickRefineSearchButton = () => {
 };
 
 const dismissTaskTime = () => {
+  const dueDate = htmlElementByClass('DueDateTokenButton-label', HTMLSpanElement);
+  if (dueDate.textContent === 'No due date') {
+    return;
+  }
   const dismissTaskTimeButton = document.querySelector('#task_pane_due_date_input > div.RemoveButton--isEnabled');
   if ((dismissTaskTimeButton == null) || !(dismissTaskTimeButton instanceof HTMLElement)) {
     return;
