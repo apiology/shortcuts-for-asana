@@ -81,7 +81,7 @@ const focusOnFirstTask = () => {
 };
 
 const removeAssignee = () => {
-  const element = findElement('#task_pane_assignee_input .RemoveButton');
+  const element = findElement('.TaskPaneAssigneeToken-removeButton');
   if (element != null) {
     logger.log('Removing assignee');
     element.click();
