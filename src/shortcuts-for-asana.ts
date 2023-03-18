@@ -167,7 +167,7 @@ const dismissTaskTime = () => {
   if (dueDate.textContent === 'No due date') {
     return;
   }
-  const dismissTaskTimeButton = document.querySelector('#task_pane_due_date_input > div.RemoveButton--isEnabled');
+  const dismissTaskTimeButton = document.querySelector('.TaskPaneFields-dueDateContainer .TaskDueDateToken-removeButton');
   if ((dismissTaskTimeButton == null) || !(dismissTaskTimeButton instanceof HTMLElement)) {
     return;
   }
