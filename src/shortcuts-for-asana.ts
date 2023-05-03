@@ -158,7 +158,24 @@ const openLink = (num: number) => {
   }
 };
 
+const dismissSearchTaskPane = () => {
+  const targetElement = document.querySelector('.FullWidthPageStructureWithDetailsOverlay-detailsOverlay');
+
+  const escapeEvent = new KeyboardEvent('keydown', {
+    key: 'Escape',
+    code: 'Escape',
+    keyCode: 27,
+    which: 27,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  targetElement?.dispatchEvent(escapeEvent);
+};
+
 const clickRefineSearchButton = () => {
+  dismissSearchTaskPane();
+
   clickOnElement('.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
 };
 
