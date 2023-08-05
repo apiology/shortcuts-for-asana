@@ -80,11 +80,19 @@ const focusOnFirstTask = () => {
   firstTextArea.click();
 };
 
-const removeAssignee = () => {
+const removeAssigneeOrCurrentProject = () => {
   const element = findElement('.TaskPaneAssigneeToken-removeButton');
   if (element != null) {
     logger.log('Removing assignee');
     element.click();
+    focusOnFirstTask();
+  }
+  const currentProjectGid = window.location.href.split('/')[4];
+  const selector = `#task_pane_projects_input${currentProjectGid} + div + div :first-child`;
+
+  const removeButton = document.querySelector(selector);
+  if (removeButton != null && removeButton instanceof HTMLElement) {
+    removeButton.click();
     focusOnFirstTask();
   }
 };
@@ -206,7 +214,7 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
     const num = parseInt(e.key, 10);
     openLink(num);
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
-    removeAssignee();
+    removeAssigneeOrCurrentProject();
   } else if (e.metaKey && e.key === 'Enter') {
     markTaskWithIncompleteDependentsDialogComplete(e);
     requestIdleCallback(() => {
