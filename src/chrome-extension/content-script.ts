@@ -4,10 +4,9 @@ import { shortcutsKeyDownBeforeOthers } from '../shortcuts-for-asana.js';
 
 export function registerEventListeners() {
   const logger = platform().logger();
-  // capture: true ensures that we can differentiate between the
-  // cmd-enter key event when the dependent dialog is initially brought
-  // up, and when it was already up and the user wants to confirm to
-  // close the task.
+
+  // capture: true gives us priority in handling events - Asana's JS
+  // will eat the event and disable any further handling otherwise.
   document.addEventListener('keydown', shortcutsKeyDownBeforeOthers, { capture: true });
   logger.debug('Registered keydown listener', shortcutsKeyDownBeforeOthers);
 }

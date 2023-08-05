@@ -89,7 +89,7 @@ const removeAssignee = () => {
   }
 };
 
-const afterTaskMarkedComplete = () => {
+const focusOnFirstTaskIfNotSubtask = () => {
   const classes = document.activeElement?.parentElement?.classList;
   if (classes == null) {
     throw new Error('Could not find element');
@@ -101,10 +101,11 @@ const afterTaskMarkedComplete = () => {
   }
 };
 
-const markTaskWithIncompleteDependentsDialogComplete = (e: KeyboardEvent): boolean => {
-  const markCompleteSelector = 'div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal div.PrimaryButton';
+export const markDependentTaskCompleteSelector = 'div.CompleteTaskWithIncompletePrecedentTasksConfirmationModal div.PrimaryButton';
+
+export const markTaskWithIncompleteDependentsDialogComplete = (e: KeyboardEvent): boolean => {
   logger.debug('trying to click on confirmation modal');
-  if (clickOnElement(markCompleteSelector)) {
+  if (clickOnElement(markDependentTaskCompleteSelector)) {
     focusOnFirstTask();
     // if the element was there and we clicked on it, don't let
     // cmd-enter propagate.  We don't want the underlying task UI
@@ -118,21 +119,19 @@ const markTaskWithIncompleteDependentsDialogComplete = (e: KeyboardEvent): boole
   return false;
 };
 
-const markTaskComplete = (e: KeyboardEvent) => {
+const moveToFirstTaskAfterTaskMarkedComplete = (e: KeyboardEvent) => {
   logger.debug('got meta enter (before others)');
-  if (!markTaskWithIncompleteDependentsDialogComplete(e)) {
-    // this must be a task without dependents.  Asana will handle the
-    // cmd-enter event properly, but we want to be sure to flip back
-    // to the first task once it's done.
-    logger.debug('enqueuing request to move to first task');
-
-    // if we don't wait until it's marked the task done by processing
-    // the event, we'll flip over to the wrong task.  So enqueue this
-    // to be done after all current event processing.
-
-    // https://stackoverflow.com/questions/7760428/how-to-run-code-after-all-other-events-have-been-handled
-    window.setTimeout(afterTaskMarkedComplete, 0);
+  if (findElement(markDependentTaskCompleteSelector) != null) {
+    // this situation is handled by a different event listener
+    logger.debug('stopping propagation');
+    e.stopPropagation();
+    return;
   }
+
+  // this must be a task without dependents.  Asana will handle the
+  // cmd-enter event properly, but we want to be sure to flip back
+  // to the first task once it's done.
+  focusOnFirstTaskIfNotSubtask();
 };
 
 const openLink = (num: number) => {
@@ -209,12 +208,30 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
     removeAssignee();
   } else if (e.metaKey && e.key === 'Enter') {
-    markTaskComplete(e);
+    markTaskWithIncompleteDependentsDialogComplete(e);
+    requestIdleCallback(() => {
+      // wait for Asana to render the dependent task dialog if it's going to
+
+      // also, if we don't wait until it's marked the task done by processing
+      // the event, we'll flip over to the wrong task.  So enqueue this
+      // to be done after all current event processing.
+
+      // https://stackoverflow.com/questions/7760428/how-to-run-code-after-all-other-events-have-been-handled
+
+      moveToFirstTaskAfterTaskMarkedComplete(e);
+    });
   } else if (e.ctrlKey && e.key === 'r') {
     clickRefineSearchButton();
   } else if (e.ctrlKey && e.key === 't') {
     dismissTaskTime();
     selectTaskTime();
     e.preventDefault(); // don't transpose text
+  }
+};
+
+export const keyDownOnConfirmationModal = (e: KeyboardEvent) => {
+  console.debug('specialized handler just got this event', e);
+  if (e.metaKey && e.key === 'Enter') {
+    markTaskWithIncompleteDependentsDialogComplete(e);
   }
 };
