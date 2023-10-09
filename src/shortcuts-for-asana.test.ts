@@ -4,14 +4,15 @@
 // filter button pulled 2022-11
 
 import { shortcutsKeyDownBeforeOthers } from './shortcuts-for-asana.js';
-import { waitForElement, htmlElementByClass } from './chrome-extension/dom-utils.js';
+import { waitForElement, htmlElementByClass, htmlElementBySelector } from './chrome-extension/dom-utils.js';
 import { setPlatform } from './platform.js';
 import { TestPlatform } from './__mocks__/test-platform.js';
 import {
   filterButtonClickHtml,
   filterButtonClickDismissingTaskHtml,
   removeAssigneeHtml,
-  openLinkHtml,
+  openLinkHtmlCustomField,
+  openLinkHtmlPlateSpinnerAction,
   settingTaskTimeHtml,
   settingTaskTimeNoExistingTimeHtml,
 } from './__fixtures__/shortcuts-for-asana-fixtures.js';
@@ -56,8 +57,8 @@ test('removeAssignee', () => {
   expect(removeButton.click).toHaveBeenCalled();
 });
 
-test('openLink', () => {
-  document.body.innerHTML = openLinkHtml;
+test('openLinkCustomField', () => {
+  document.body.innerHTML = openLinkHtmlCustomField;
   setPlatform(new TestPlatform());
 
   const linkAnchor = htmlElementByClass('ProsemirrorEditor-link', HTMLAnchorElement);
@@ -67,6 +68,19 @@ test('openLink', () => {
   jest.spyOn(window, 'open').mockImplementation();
   shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, metaKey: true, key: '1' }));
   expect(window.open).toHaveBeenCalledWith('https://www.cnn.com/', '_blank');
+});
+
+test('openLinkPlateSpinnerAction', () => {
+  document.body.innerHTML = openLinkHtmlPlateSpinnerAction;
+  setPlatform(new TestPlatform());
+
+  const button = htmlElementBySelector('#plate-spinner-actions .ActionList [role="button"]', HTMLDivElement);
+  if (button == null) {
+    throw Error('button was null!');
+  }
+  jest.spyOn(button, 'click').mockImplementation();
+  shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, metaKey: true, key: '1' }));
+  expect(button.click).toHaveBeenCalledWith();
 });
 
 test('setting task time dismisses task time', () => {
