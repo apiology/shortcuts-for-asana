@@ -4,7 +4,7 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
-import { htmlElementByClass } from './chrome-extension/dom-utils.js';
+import { htmlElementByClass, htmlElementsBySelector } from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
 const p = new ChromeExtensionPlatform();
@@ -62,9 +62,9 @@ const dependencyLinks = (): HTMLElement[] => {
 // <a href="https://www.cnn.com/" class="ProsemirrorEditor-link">https://www.cnn.com/</a>
 // <a class="PrimaryNavigationLink BaseLink" href="https://app.asana.com/0/123/456/f">Remove assignee no longer works in shortcuts</a>
 // <a target="_blank" rel="noreferrer noopener" class="PrimaryLink AppLinkToken-link BaseLink" href="https://github.com/apiology/shortcuts-for-asana/pull/71">https://github.com/apiology/shortcuts-for-asana/pull/71</a>
-const bodyLinks = () => Array.from(document.querySelectorAll('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link'));
-
-const customFieldLinks = () => Array.from(document.querySelectorAll('.CustomPropertyExternalLink-linkIcon'));
+const bodyLinks = (): HTMLElement[] => htmlElementsBySelector('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link', HTMLElement);
+const actionButtons = (): HTMLElement[] => htmlElementsBySelector('#plate-spinner-actions .ActionList [role="button"]', HTMLElement);
+const customFieldLinks = (): HTMLElement[] => htmlElementsBySelector('.CustomPropertyExternalLink-linkIcon', HTMLElement);
 
 const focusOnFirstTask = () => {
   logger.debug('trying to focus on first task');
@@ -142,7 +142,7 @@ const moveToFirstTaskAfterTaskMarkedComplete = (e: KeyboardEvent) => {
   focusOnFirstTaskIfNotSubtask();
 };
 
-const openLink = (num: number) => {
+const activateTarget = (num: number) => {
   const dependencies = dependencyLinks();
   if (dependencies.length > 0) {
     const linkFound = dependencies[num - 1];
@@ -151,15 +151,22 @@ const openLink = (num: number) => {
       linkFound.click();
     }
   } else {
-    const cfLinks = customFieldLinks();
-    const bLinks = bodyLinks();
-    const links = cfLinks.concat(bLinks);
-    const linkFound = links[num - 1];
-    logger.debug('linkFound', linkFound);
-    if (linkFound != null) {
-      const url = linkFound.getAttribute('href');
-      if (url != null) {
-        window.open(url, '_blank');
+    const cfLinks: { link: HTMLElement }[] = customFieldLinks().map((link) => ({ link }));
+    const bLinks: { link: HTMLElement }[] = bodyLinks().map((link) => ({ link }));
+    const aButtons: { button: HTMLElement }[] = actionButtons().map((button) => ({ button }));
+    const emptyTargets: { button?: HTMLElement, link?: HTMLElement }[] = [];
+    const targets = emptyTargets.concat(cfLinks).concat(aButtons).concat(bLinks);
+
+    const targetFound = targets[num - 1];
+    logger.debug('linkFound', targetFound);
+    if (targetFound != null) {
+      if ('button' in targetFound) {
+        targetFound.button.click();
+      } else if ('link' in targetFound) {
+        const url = targetFound.link.getAttribute('href');
+        if (url != null) {
+          window.open(url, '_blank');
+        }
       }
     }
   }
@@ -212,7 +219,7 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   const nonZeroDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   if (e.metaKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
     const num = parseInt(e.key, 10);
-    openLink(num);
+    activateTarget(num);
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
     removeAssigneeOrCurrentProject();
   } else if (e.metaKey && e.key === 'Enter') {
