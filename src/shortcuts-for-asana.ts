@@ -1,5 +1,5 @@
 /**
- * content-script.ts module.
+ * shortcuts-for-asana.ts module.
  *
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
@@ -220,6 +220,8 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   if (e.metaKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
     const num = parseInt(e.key, 10);
     activateTarget(num);
+  } else if (e.metaKey && e.ctrlKey && e.key === 'i') {
+    focusOnFirstTask();
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
     removeAssigneeOrCurrentProject();
   } else if (e.metaKey && e.key === 'Enter') {
