@@ -81,19 +81,20 @@ const focusOnFirstTask = () => {
 };
 
 const removeAssigneeOrCurrentProject = () => {
-  const element = findElement('.TaskPaneAssigneeToken-removeButton');
-  if (element != null) {
-    logger.log('Removing assignee');
-    element.click();
-    focusOnFirstTask();
-  }
   const currentProjectGid = window.location.href.split('/')[4];
-  const selector = `#task_pane_projects_input${currentProjectGid} + div + div :first-child`;
+  const selector = `#task_pane_projects_input${currentProjectGid} .TokenizerPillBase-removeButton`;
 
   const removeButton = document.querySelector(selector);
   if (removeButton != null && removeButton instanceof HTMLElement) {
     removeButton.click();
     focusOnFirstTask();
+  } else {
+    const element = findElement('.TaskPaneAssigneeToken-removeButton');
+    if (element != null) {
+      logger.log('Removing assignee');
+      element.click();
+      focusOnFirstTask();
+    }
   }
 };
 
