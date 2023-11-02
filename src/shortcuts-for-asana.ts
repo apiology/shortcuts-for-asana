@@ -192,6 +192,8 @@ const clickRefineSearchButton = () => {
   dismissSearchTaskPane();
 
   clickOnElement('.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
+  clickOnElement('.SearchGridPageToolbar-advancedSearchButton');
+  clickOnElement('.SubtleToggleButton:has(svg.FilterMiniIcon)');
 };
 
 const dismissTaskTime = () => {
