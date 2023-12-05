@@ -82,7 +82,7 @@ const focusOnFirstTask = () => {
 
 const removeAssigneeOrCurrentProject = () => {
   const currentProjectGid = window.location.href.split('/')[4];
-  const selector = `#task_pane_projects_input${currentProjectGid} .TokenizerPillBase-removeButton`;
+  const selector = `#task_pane_projects_input${currentProjectGid} + div + div .TaskProjectTokenButtonsContainer-removeButton`;
 
   const removeButton = document.querySelector(selector);
   if (removeButton != null && removeButton instanceof HTMLElement) {
