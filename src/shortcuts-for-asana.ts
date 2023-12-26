@@ -82,11 +82,21 @@ const focusOnFirstTask = () => {
 
 const removeAssigneeOrCurrentProject = () => {
   const currentProjectGid = window.location.href.split('/')[4];
-  const selector = `#task_pane_projects_input${currentProjectGid} + div + div .TaskProjectTokenButtonsContainer-removeButton`;
+  // this changes way too often.  put most recently seen on top
+  const removeProjectSelectors = [
+    `#task_pane_projects_input${currentProjectGid} + div + div .TokenizerPillBase-removeIcon`,
+    `#task_pane_projects_input${currentProjectGid} div + div.TokenizerPillBase-removeButton`,
+  ];
 
-  const removeButton = document.querySelector(selector);
-  if (removeButton != null && removeButton instanceof HTMLElement) {
-    removeButton.click();
+  // use document.querySelector(selector); against removeProjectSelectors
+  const removeProjectButton = removeProjectSelectors
+    .map((selector) => document.querySelector(selector))
+    .find((element) => element != null);
+
+  logger.debug(`Found ${removeProjectButton} from selectors ${removeProjectSelectors}`);
+
+  if (removeProjectButton != null && removeProjectButton instanceof HTMLElement) {
+    removeProjectButton.click();
     focusOnFirstTask();
   } else {
     const element = findElement('.TaskPaneAssigneeToken-removeButton');
