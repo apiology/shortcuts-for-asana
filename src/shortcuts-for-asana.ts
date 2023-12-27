@@ -4,7 +4,7 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
-import { htmlElementByClass, htmlElementsBySelector } from './chrome-extension/dom-utils.js';
+import { htmlElementBySelector, htmlElementByClass, htmlElementsBySelector } from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
 const p = new ChromeExtensionPlatform();
@@ -206,6 +206,33 @@ const clickRefineSearchButton = () => {
   clickOnElement('.SubtleToggleButton:has(svg.FilterMiniIcon)');
 };
 
+const clickConvertToSubtaskButton = () => {
+  logger.debug('clicking convert to subtask button');
+  clickOnElement('.TaskPaneExtraActionsButton');
+
+  const convertTo = htmlElementBySelector('.TaskPaneExtraActionsButton-convertToMenuItem', HTMLElement);
+  const convertToRect = convertTo.getBoundingClientRect();
+  const convertToX = convertToRect.x + convertToRect.width / 2;
+  const convertToY = convertToRect.y + convertToRect.height / 2;
+  // send mouse move event
+  const mouseMoveEvent = new MouseEvent('mousemove', {
+    bubbles: true,
+    cancelable: true,
+    clientX: convertToX,
+    clientY: convertToY,
+  });
+  convertTo.dispatchEvent(mouseMoveEvent);
+  clickOnElement('.TaskPaneExtraActionsButton-changeTaskParentDrawerItem');
+
+  const changeTaskParent = htmlElementBySelector('.ChangeTaskParentDrawer input', HTMLElement);
+  // send focusin
+  const focusInEvent = new FocusEvent('focusin', {
+    bubbles: true,
+    cancelable: true,
+  });
+  changeTaskParent.dispatchEvent(focusInEvent);
+};
+
 const dismissTaskTime = () => {
   const dueDate = htmlElementByClass('DueDateTokenButton-label', HTMLSpanElement);
   if (dueDate.textContent === 'No due date') {
@@ -252,6 +279,8 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
     });
   } else if (e.ctrlKey && e.key === 'r') {
     clickRefineSearchButton();
+  } else if (e.ctrlKey && e.key === 's') {
+    clickConvertToSubtaskButton();
   } else if (e.ctrlKey && e.key === 't') {
     dismissTaskTime();
     selectTaskTime();
