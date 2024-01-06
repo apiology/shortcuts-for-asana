@@ -64,7 +64,7 @@ const dependencyLinks = (): HTMLElement[] => {
 // <a target="_blank" rel="noreferrer noopener" class="PrimaryLink AppLinkToken-link BaseLink" href="https://github.com/apiology/shortcuts-for-asana/pull/71">https://github.com/apiology/shortcuts-for-asana/pull/71</a>
 const bodyLinks = (): HTMLElement[] => htmlElementsBySelector('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link', HTMLElement);
 const actionButtons = (): HTMLElement[] => htmlElementsBySelector('#plate-spinner-actions .ActionList [role="button"]', HTMLElement);
-const customFieldLinks = (): HTMLElement[] => htmlElementsBySelector('.CustomPropertyExternalLink-linkIcon', HTMLElement);
+const customFieldLinks = (): HTMLElement[] => htmlElementsBySelector('.Stack .CustomPropertyExternalLink-linkIcon', HTMLElement);
 
 const focusOnFirstTask = () => {
   logger.debug('trying to focus on first task');
