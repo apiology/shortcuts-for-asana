@@ -183,6 +183,18 @@ const activateTarget = (num: number) => {
   }
 };
 
+const activateProjectTab = (num: number) => {
+  const selector = 'nav.PotReorderableTabNavigationBar a.PotTabNavigationBarItemWithMenu-link';
+  const tabLinks = htmlElementsBySelector(selector, HTMLAnchorElement);
+  if (tabLinks.length >= num) {
+    const linkFound = tabLinks[num - 1];
+    logger.debug('linkFound from', num, linkFound, 'in tabLinks', tabLinks);
+    if (linkFound != null) {
+      linkFound.click();
+    }
+  }
+};
+
 const dismissSearchTaskPane = () => {
   const targetElement = document.querySelector('.FullWidthPageStructureWithDetailsOverlay-detailsOverlay');
 
@@ -260,6 +272,9 @@ export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   if (e.metaKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
     const num = parseInt(e.key, 10);
     activateTarget(num);
+  } else if (e.altKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
+    const num = parseInt(e.key, 10);
+    activateProjectTab(num);
   } else if (e.metaKey && e.ctrlKey && e.key === 'i') {
     focusOnFirstTask();
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
