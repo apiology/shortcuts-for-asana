@@ -4,7 +4,9 @@
  * Chrome extension which adds missing keyboard shortcuts/behavior to Asana
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
-import { htmlElementBySelector, htmlElementByClass, htmlElementsBySelector } from './chrome-extension/dom-utils.js';
+import {
+  ensureNotNull, htmlElementBySelector, htmlElementByClass, htmlElementsBySelector,
+} from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
 const p = new ChromeExtensionPlatform();
@@ -153,6 +155,9 @@ const moveToFirstTaskAfterTaskMarkedComplete = (e: KeyboardEvent) => {
   focusOnFirstTaskIfNotSubtask();
 };
 
+const isAsanaProjectLink = (link: HTMLElement): boolean => link.classList.contains('WorkGraphObjectPill-navigationLink')
+  && ensureNotNull(link.parentElement).classList.contains('WorkGraphObjectPill-navigationLinkContainer--project');
+
 const activateTarget = (num: number) => {
   const dependencies = dependencyLinks();
   if (dependencies.length > 0) {
@@ -174,9 +179,17 @@ const activateTarget = (num: number) => {
       if ('button' in targetFound) {
         targetFound.button.click();
       } else if ('link' in targetFound) {
-        const url = targetFound.link.getAttribute('href');
+        const { link } = targetFound;
+
+        const url = link.getAttribute('href');
         if (url != null) {
-          window.open(url, '_blank');
+          if (isAsanaProjectLink(link)) {
+            logger.debug('normal click on link');
+            link.click();
+          } else {
+            logger.debug('opening in new tab');
+            window.open(url, '_blank');
+          }
         }
       }
     }
