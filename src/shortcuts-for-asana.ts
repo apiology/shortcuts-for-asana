@@ -272,7 +272,7 @@ const dismissTaskTime = () => {
 
 const selectTaskTime = () => {
   clickOnElement('.TaskDueDateToken > div');
-  const clockIcon = document.querySelector('.ClockIcon');
+  const clockIcon = document.querySelector('div.DatePicker-footerIconButton .ClockIcon');
   clockIcon?.parentElement?.click();
 
   logger.log('Attempting to set focus on due time');
