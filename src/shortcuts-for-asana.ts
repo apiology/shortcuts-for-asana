@@ -5,7 +5,7 @@
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
 import {
-  ensureNotNull, htmlElementBySelector, htmlElementByClass, htmlElementsBySelector,
+  htmlElementBySelector, htmlElementByClass, htmlElementsBySelector,
 } from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
@@ -155,10 +155,7 @@ const moveToFirstTaskAfterTaskMarkedComplete = (e: KeyboardEvent) => {
   focusOnFirstTaskIfNotSubtask();
 };
 
-const isAsanaProjectLink = (link: HTMLElement): boolean => link.classList.contains('WorkGraphObjectPill-navigationLink')
-  && ensureNotNull(link.parentElement).classList.contains('WorkGraphObjectPill-navigationLinkContainer--project');
-
-const activateTarget = (num: number) => {
+const activateTarget = (num: number, { metaKey }: { metaKey: boolean }) => {
   const dependencies = dependencyLinks();
   if (dependencies.length > 0) {
     const linkFound = dependencies[num - 1];
@@ -183,12 +180,12 @@ const activateTarget = (num: number) => {
 
         const url = link.getAttribute('href');
         if (url != null) {
-          if (isAsanaProjectLink(link)) {
-            logger.debug('normal click on link');
-            link.click();
-          } else {
+          if (metaKey) {
             logger.debug('opening in new tab');
             window.open(url, '_blank');
+          } else {
+            logger.debug('normal click on link');
+            link.click();
           }
         }
       }
@@ -282,12 +279,15 @@ const selectTaskTime = () => {
 export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
   // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
   const nonZeroDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  if (e.metaKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
+  if (nonZeroDigits.includes(e.key)) {
     const num = parseInt(e.key, 10);
-    activateTarget(num);
-  } else if (e.altKey && e.ctrlKey && nonZeroDigits.includes(e.key)) {
-    const num = parseInt(e.key, 10);
-    activateProjectTab(num);
+    if (!e.metaKey && e.altKey && e.ctrlKey) {
+      activateProjectTab(num);
+    } else if (e.metaKey && !e.altKey && e.ctrlKey) {
+      activateTarget(num, { metaKey: true });
+    } else if (!e.metaKey && !e.altKey && e.ctrlKey) {
+      activateTarget(num, { metaKey: false });
+    }
   } else if (e.metaKey && e.ctrlKey && e.key === 'i') {
     focusOnFirstTask();
   } else if (e.metaKey && e.ctrlKey && e.key === 'r') {
