@@ -36,6 +36,9 @@ ctrl-r will click the 'Refine search' button.
 If you have links within a task description, Shortcuts for Asana adds
 keyboard shortcuts for those tasks:
 
+* ctrl-1: open the first link in current tab
+* cmd-ctrl-2...: etc
+
 * cmd-ctrl-1: open the first link in a new tab
 * cmd-ctrl-2...: etc
 
