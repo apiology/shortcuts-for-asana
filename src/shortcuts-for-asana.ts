@@ -194,7 +194,8 @@ const activateTarget = (num: number, { metaKey }: { metaKey: boolean }) => {
 };
 
 const activateProjectTab = (num: number) => {
-  const selector = 'nav.PotReorderableTabNavigationBar a.PotTabNavigationBarItemWithMenu-link';
+  const selector = '.ProjectPageHeader-navigationBar .ObjectReorderableTabNavigationBar .ObjectTabNavigationBarItemWithMenu a';
+
   const tabLinks = htmlElementsBySelector(selector, HTMLAnchorElement);
   if (tabLinks.length >= num) {
     const linkFound = tabLinks[num - 1];
@@ -202,6 +203,8 @@ const activateProjectTab = (num: number) => {
     if (linkFound != null) {
       linkFound.click();
     }
+  } else {
+    logger.debug('Could not find link from ', num, 'in tabLinks', tabLinks);
   }
 };
 
