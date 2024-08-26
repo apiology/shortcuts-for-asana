@@ -55,16 +55,21 @@ const dependencyLinks = (): HTMLElement[] => {
 
 // if no dependency dialog, let's pick out links in task descriptions...
 //
-// .ProsemirrorEditor .BaseLink is either a link to another entity in
+// (old) .ProsemirrorEditor .BaseLink is either a link to another entity in
+// Asana or a link associated with an Asana-integrated application
+// (e.g., GitHub) inside the text editor window
+// (old) .ProsemirrorEditor .BaseLink is either a link to another entity in
 // Asana or a link associated with an Asana-integrated application
 // (e.g., GitHub) inside the text editor window
 // .ProsemirrorEditor-link is a link to an outside site and does not
 // include the BaseLink class as of 2023-02
 // Examples:
-// <a href="https://www.cnn.com/" class="ProsemirrorEditor-link">https://www.cnn.com/</a>
-// <a class="PrimaryNavigationLink BaseLink" href="https://app.asana.com/0/123/456/f">Remove assignee no longer works in shortcuts</a>
+// (2024-08) <a href="https://www.cnn.com/" class="ProsemirrorEditor-link">https://www.cnn.com/</a>
+// (old) <a class="PrimaryNavigationLink BaseLink" href="https://app.asana.com/0/123/456/f">Remove assignee no longer works in shortcuts</a>
+// (2024-08) <a class="PrimaryNavigationLink HypertextLink-navigationPill WorkGraphObjectPill-navigationLink" href="https://app.asana.com/0/1205866083602258/1205877552150967">checks-major-reset</a>
 // <a target="_blank" rel="noreferrer noopener" class="PrimaryLink AppLinkToken-link BaseLink" href="https://github.com/apiology/shortcuts-for-asana/pull/71">https://github.com/apiology/shortcuts-for-asana/pull/71</a>
-const bodyLinks = (): HTMLElement[] => htmlElementsBySelector('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link', HTMLElement);
+
+const bodyLinks = (): HTMLElement[] => htmlElementsBySelector('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link, .PrimaryNavigationLink', HTMLElement);
 const actionButtons = (): HTMLElement[] => htmlElementsBySelector('#plate-spinner-actions .ActionList [role="button"]', HTMLElement);
 const customFieldLinks = (): HTMLElement[] => htmlElementsBySelector('.Stack .CustomPropertyExternalLink-linkIcon', HTMLElement);
 
