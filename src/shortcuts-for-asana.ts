@@ -199,9 +199,13 @@ const activateTarget = (num: number, { metaKey }: { metaKey: boolean }) => {
 };
 
 const activateProjectTab = (num: number) => {
-  const selector = '.ProjectPageHeader-navigationBar .ObjectReorderableTabNavigationBar .ObjectTabNavigationBarItemWithMenu a';
+  const oldSelector = '.ProjectPageHeader-navigationBar .ObjectReorderableTabNavigationBar .ObjectTabNavigationBarItemWithMenu a';
+  const selector = '.ProjectPageHeader-navigationBar .SortableList-sortableItemContainer .ObjectTabNavigationBarItemWithMenuNewUi-selectableTab';
 
-  const tabLinks = htmlElementsBySelector(selector, HTMLAnchorElement);
+  let tabLinks = htmlElementsBySelector(selector, HTMLSpanElement);
+  if (tabLinks.length === 0) {
+    tabLinks = htmlElementsBySelector(oldSelector, HTMLAnchorElement);
+  }
   if (tabLinks.length >= num) {
     const linkFound = tabLinks[num - 1];
     logger.debug('linkFound from', num, linkFound, 'in tabLinks', tabLinks);
