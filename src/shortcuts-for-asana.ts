@@ -5,7 +5,7 @@
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
 import {
-  htmlElementBySelector, htmlElementByClass, htmlElementsBySelector,
+  htmlElementBySelector, htmlElementByClass, htmlElementsBySelector, waitForElement,
 } from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
@@ -32,6 +32,8 @@ const clickOnElement = (selector: string): boolean => {
     element.click();
     return true;
   }
+  l.debug('Could not find element from', selector);
+
   return false;
 };
 
@@ -279,13 +281,15 @@ const dismissTaskTime = () => {
   dismissTaskTimeButton.click();
 };
 
-const selectTaskTime = () => {
+const selectTaskTime = async () => {
   clickOnElement('.TaskDueDateToken > div');
-  const clockIcon = document.querySelector('div.DatePicker-footerIconButton .ClockIcon');
+  const clockIcon = await waitForElement('.ClockIcon');
+  logger.debug('Found clock icon', clockIcon);
   clockIcon?.parentElement?.click();
 
-  logger.log('Attempting to set focus on due time');
-  findElement('#due_time_view_select')?.focus();
+  const dueTimeViewSelectElement = findElement('#due_time_view_select');
+  logger.log('Attempting to set focus on due time on ', dueTimeViewSelectElement);
+  dueTimeViewSelectElement?.focus();
 };
 
 export const shortcutsKeyDownBeforeOthers = (e: KeyboardEvent) => {
