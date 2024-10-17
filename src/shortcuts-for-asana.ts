@@ -23,6 +23,11 @@ const findElement = (selector: string): HTMLElement | null => {
   return null;
 };
 
+const awaitAndClickOnElement = async (selector: string): Promise<void> => {
+  const element = await waitForElement(selector, HTMLElement);
+  element.click();
+};
+
 const clickOnElement = (selector: string): boolean => {
   const l = platform().logger();
 
@@ -95,6 +100,7 @@ const removeAssigneeOrCurrentProject = () => {
   const removeProjectSelectors = [
     `#task_pane_projects_input${currentProjectGid} + div + div .TokenizerPillBase-removeIcon`,
     `#task_pane_projects_input${currentProjectGid} div + div.TokenizerPillBase-removeButton`,
+    `#task_pane_projects_input${currentProjectGid} div.TokenizerPillRemoveButton-removeButtonContainer`,
   ];
 
   // use document.querySelector(selector); against removeProjectSelectors
@@ -242,11 +248,16 @@ const clickRefineSearchButton = () => {
   clickOnElement('.SubtleToggleButton:has(svg.FilterMiniIcon)');
 };
 
-const clickConvertToSubtaskButton = () => {
-  logger.debug('clicking convert to subtask button');
+const clickConvertToSubtaskButton = async () => {
+  logger.debug('clicking on extra actions button');
   clickOnElement('.TaskPaneExtraActionsButton');
+  logger.debug('waiting for convertTo button to appear');
 
-  const convertTo = htmlElementBySelector('.TaskPaneExtraActionsButton-convertToMenuItem', HTMLElement);
+  const convertTo = await waitForElement(
+    '.TaskPaneExtraActionsButton-convertToMenuItem',
+    HTMLElement
+  );
+  logger.debug('hovering over convertTo');
   const convertToRect = convertTo.getBoundingClientRect();
   const convertToX = convertToRect.x + convertToRect.width / 2;
   const convertToY = convertToRect.y + convertToRect.height / 2;
@@ -258,7 +269,8 @@ const clickConvertToSubtaskButton = () => {
     clientY: convertToY,
   });
   convertTo.dispatchEvent(mouseMoveEvent);
-  clickOnElement('.TaskPaneExtraActionsButton-changeTaskParentDrawerItem');
+  logger.debug('clicking convert to subtask button');
+  awaitAndClickOnElement('.TaskPaneExtraActionsButton-changeTaskParentDrawerItem');
 
   const changeTaskParent = htmlElementBySelector('.ChangeTaskParentDrawer input', HTMLElement);
   // send focusin
@@ -283,7 +295,7 @@ const dismissTaskTime = () => {
 
 const selectTaskTime = async () => {
   clickOnElement('.TaskDueDateToken > div');
-  const clockIcon = await waitForElement('.ClockIcon');
+  const clockIcon = await waitForElement('.ClockIcon', HTMLElement);
   logger.debug('Found clock icon', clockIcon);
   clockIcon?.parentElement?.click();
 
