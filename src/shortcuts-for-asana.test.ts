@@ -40,7 +40,7 @@ test('filterButtonClickDismissingTask', () => {
 
   shortcutsKeyDownBeforeOthers(new window.KeyboardEvent('keydown', { ctrlKey: true, key: 'r' }));
 
-  const filterButton = waitForElement('div.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
+  const filterButton = waitForElement('div.SearchGridPageToolbar-advancedSearchFiltersAppliedButton', HTMLDivElement);
   expect(filterButton).not.toBeNull();
 });
 
