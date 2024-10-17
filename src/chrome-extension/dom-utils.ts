@@ -81,23 +81,25 @@ export function waitForElement<T extends HTMLElement>(
   selector: string,
   clazz: Class<T>
 ): Promise<T> {
-  return new Promise<T>((resolve) => {
+  return new Promise<T>((resolve, reject) => {
     const e = document.querySelector(selector);
     if (e) {
       if (!(e instanceof clazz)) {
-        throw new Error(`element with selector ${selector} not an ${clazz.name} as expected!`);
+        reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected!`));
+      } else {
+        resolve(e);
       }
-      resolve(e);
     }
 
     const observer = new MutationObserver(() => {
       const element = document.querySelector(selector);
       if (element) {
         if (!(element instanceof clazz)) {
-          throw new Error(`element with selector ${selector} not an ${clazz.name} as expected!`);
+          reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected!`));
+        } else {
+          resolve(element);
+          observer.disconnect();
         }
-        resolve(element);
-        observer.disconnect();
       }
     });
 

@@ -191,6 +191,17 @@ test('waitForElementAlreadyExists', async () => {
   expect(element.textContent).toEqual('2');
 });
 
+test('waitForElementWrongType', () => {
+  document.body.innerHTML = `
+<div>
+  <div id='foo'>1</div>
+  <div id='bar'>2</div>
+  <div id='baz'>3</div>
+</div>
+`;
+  expect(async () => waitForElement('#bar', HTMLAnchorElement)).rejects.toEqual(new Error('element with selector #bar not an HTMLAnchorElement as expected!'));
+});
+
 test('waitForElementAppearsLater', async () => {
   document.body.innerHTML = '';
   const elementPromise = waitForElement('#bar', HTMLDivElement);
