@@ -295,7 +295,8 @@ const dismissTaskTime = () => {
 
 const selectTaskTime = async () => {
   clickOnElement('.TaskDueDateToken > div');
-  const clockIcon = await waitForElement('.ClockIcon', HTMLElement);
+  logger.debug('Looking for clock icon...');
+  const clockIcon = await waitForElement('.ClockIcon', SVGSVGElement);
   logger.debug('Found clock icon', clockIcon);
   clockIcon?.parentElement?.click();
 
