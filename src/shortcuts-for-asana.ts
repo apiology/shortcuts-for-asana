@@ -207,8 +207,8 @@ const activateTarget = (num: number, { metaKey }: { metaKey: boolean }) => {
 };
 
 const activateProjectTab = (num: number) => {
-  const oldSelector = '.ProjectPageHeader-navigationBar .ObjectReorderableTabNavigationBar .ObjectTabNavigationBarItemWithMenu a';
-  const selector = '.ProjectPageHeader-navigationBar .SortableList-sortableItemContainer .ObjectTabNavigationBarItemWithMenuNewUi-selectableTab';
+  const oldSelector = '.ProjectPageHeader-navigationBar .SortableList-sortableItemContainer .ObjectTabNavigationBarItemWithMenuNewUi-selectableTab';
+  const selector = '.ProjectPageHeader-navigationBar .SortableList-sortableItemContainer  .ObjectTabNavigationBarItemWithMenu-selectableTab';
 
   let tabLinks = htmlElementsBySelector(selector, HTMLSpanElement);
   if (tabLinks.length === 0) {
