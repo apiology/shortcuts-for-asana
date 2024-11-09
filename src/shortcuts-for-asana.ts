@@ -76,7 +76,7 @@ const dependencyLinks = (): HTMLElement[] => {
 // (2024-08) <a class="PrimaryNavigationLink HypertextLink-navigationPill WorkGraphObjectPill-navigationLink" href="https://app.asana.com/0/1205866083602258/1205877552150967">checks-major-reset</a>
 // <a target="_blank" rel="noreferrer noopener" class="PrimaryLink AppLinkToken-link BaseLink" href="https://github.com/apiology/shortcuts-for-asana/pull/71">https://github.com/apiology/shortcuts-for-asana/pull/71</a>
 
-const bodyLinks = (): HTMLElement[] => htmlElementsBySelector('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link, .PrimaryNavigationLink', HTMLElement);
+const bodyLinks = (): HTMLElement[] => htmlElementsBySelector('.ProsemirrorEditor .BaseLink, .ProsemirrorEditor-link, .ProsemirrorEditor .PrimaryNavigationLink', HTMLElement);
 const actionButtons = (): HTMLElement[] => htmlElementsBySelector('#plate-spinner-actions .ActionList [role="button"]', HTMLElement);
 const customFieldLinks = (): HTMLElement[] => htmlElementsBySelector('.Stack .CustomPropertyExternalLink-linkIcon', HTMLElement);
 
