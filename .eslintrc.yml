@@ -117,3 +117,7 @@ overrides:
       max-len: 'off'
 # arrow-body-style
 # https://github.com/airbnb/javascript/blob/35914b14025cd52f53cd2ae2f353cdc7384087c0/packages/eslint-config-airbnb-base/rules/es6.js#L15-L20
+ignores:
+  - config.js
+  - node_modules
+  - dist
