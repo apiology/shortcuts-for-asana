@@ -62,6 +62,7 @@ types.installed
 
 # From package.json and npm
 /node_modules
+/.yarn
 
 # From release process
 /package.zip
