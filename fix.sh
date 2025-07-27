@@ -62,7 +62,7 @@ ensure_node_versions() {
 }
 
 ensure_yarn() {
-  npm install -g yarn
+  npm install -g yarn yarn-cli
 }
 
 ensure_npm_modules() {
