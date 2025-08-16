@@ -1,4 +1,4 @@
-.PHONY: build build-typecheck bundle_install cicoverage citypecheck citest citypecoverage clean clean-coverage clean-typecheck clean-typecoverage coverage default gem_dependencies help overcommit quality repl report-coverage report-coverage-to-codecov test typecheck typecoverage update_from_cookiecutter
+.PHONY: build build-typecheck bundle_install cicoverage citypecheck citest citypecoverage clean clean-coverage clean-typecheck clean-typecoverage coverage default gem_dependencies help overcommit quality repl report-coverage report-coverage-to-codecov test typecheck typecoverage update_from_cookiecutter docs
 .DEFAULT_GOAL := default
 
 define PRINT_HELP_PYSCRIPT
@@ -29,7 +29,7 @@ start: chrome-extension-start ## run server continously and watch files for chan
 	exit 1
 
 webpack: ## run webpack and tie together modules for use by browser
-	npx webpack
+	yarn run webpack </dev/null
 
 build-chrome-extension: yarn.lock webpack
 
@@ -45,6 +45,8 @@ types.installed: Gemfile.lock Gemfile.lock.installed ## Ensure typechecking depe
 
 build-typecheck: types.installed  ## Fetch information that type checking depends on
 
+docs: ## Generate documentation
+
 clean-typecheck: ## Refresh the easily-regenerated information that type checking depends on
 	rm -f types.installed
 	echo all clear
@@ -52,7 +54,7 @@ clean-typecheck: ## Refresh the easily-regenerated information that type checkin
 realclean-typecheck: clean-typecheck ## Remove all type checking artifacts
 
 realclean: clean realclean-typecheck
-	rm -fr vendor/bundle .bundle
+	rm -fr vendor/bundle .bundle/config
 	rm -f .make/*
 	rm -f *.installed
 	rm -fr node_modules
@@ -66,7 +68,7 @@ typecoverage: typecheck ## Run type checking and then ratchet coverage in metric
 
 clean-typecoverage: ## Clean out type-related coverage previous results to avoid flaky results
 
-citypecoverage: typecoverage ## Run type checking, ratchet coverage, and then complain if ratchet needs to be committed
+citypecoverage: citypecheck ## Run type checking, ratchet coverage, and then complain if ratchet needs to be committed
 
 config/env: config/env.1p  ## Create file suitable for docker-compose usage
 	cat config/env.1p | cut -d= -f1 > config/env
@@ -77,21 +79,22 @@ requirements_dev.txt.installed: requirements_dev.txt
 
 pip_install: requirements_dev.txt.installed ## Install Python dependencies
 
-Gemfile.lock: Gemfile
-	make .bundle/config
-	bundle lock
+Gemfile.lock: Gemfile .bundle/config
+	if [ ! -f Gemfile.lock ]; then \
+	  bundle install; \
+	else \
+	  bundle lock; \
+	fi
 
 yarn_install: yarn.lock.installed
 
-yarn.lock.installed: package.json node_modules/.keep
+yarn.lock.installed: package.json
+	yarn install
 	touch yarn.lock.installed
 
 yarn.lock: package.json
-	# --prefer-offline: maximize use of yarn cache for speed
-	# --no-progress: progress bar creates artifacts in M-x shell
-	# --non-interactive: don't interrupt CI with a prompt
-	yarn install --prefer-offline --no-progress --non-interactive
-	touch node_modules/.keep
+	yarn install
+
 
 .bundle/config:
 	touch .bundle/config
@@ -108,13 +111,6 @@ vendor/.keep: Gemfile.lock .ruby-version
 	bundle install
 	touch vendor/.keep
 
-node_modules/.keep: yarn.lock
-	# --prefer-offline: maximize use of yarn cache for speed
-	# --no-progress: progress bar creates artifacts in M-x shell
-	# --non-interactive: don't interrupt CI with a prompt
-	yarn install --prefer-offline --no-progress --non-interactive
-	touch node_modules/.keep
-
 bundle_install: Gemfile.lock.installed ## Install Ruby dependencies
 
 clean: clean-typecoverage clean-typecheck clean-coverage ## remove all built artifacts
@@ -129,7 +125,7 @@ overcommit: ## run precommit quality checks
 	bin/overcommit --run
 
 overcommit_branch: ## run precommit quality checks only on changed files
-	@bin/overcommit_branch
+	bin/overcommit --run --diff origin/main
 
 quality: overcommit ## run precommit quality checks
 

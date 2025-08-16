@@ -40,6 +40,7 @@ Temporary Items
 
 # Used by Makefile to track what we have and haven't installed
 Gemfile.lock.installed
+yarn.lock.installed
 requirements_dev.txt.installed
 types.installed
 
@@ -61,6 +62,7 @@ types.installed
 
 # From package.json and npm
 /node_modules
+/.yarn
 
 # From release process
 /package.zip
@@ -76,3 +78,5 @@ types.installed
 
 # from yarn
 /yarn-error.log
+/.pnp.cjs
+/.pnp.loader.mjs

@@ -95,7 +95,7 @@ export function waitForElement<T extends HTMLElement>(
       const element = document.querySelector(selector);
       if (element) {
         if (!(element instanceof clazz)) {
-          reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected!`));
+          reject(new Error(`element with selector ${selector} not an ${clazz.name} as expected: ${element}`));
         } else {
           resolve(element);
           observer.disconnect();
