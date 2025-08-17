@@ -95,9 +95,10 @@ const focusOnFirstTask = () => {
 };
 
 const removeAssigneeOrCurrentProject = () => {
-  const currentProjectGid = window.location.href.split('/')[4];
+  const currentProjectGid = window.location.href.split('/')[6];
   // this changes way too often.  put most recently seen on top
   const removeProjectSelectors = [
+    `#task_pane_projects_input${currentProjectGid} div:has(>.TokenizerPillRemoveButton-removeIcon) `,
     `#task_pane_projects_input${currentProjectGid} + div + div .TokenizerPillBase-removeIcon`,
     `#task_pane_projects_input${currentProjectGid} div + div.TokenizerPillBase-removeButton`,
     `#task_pane_projects_input${currentProjectGid} div.TokenizerPillRemoveButton-removeButtonContainer`,
