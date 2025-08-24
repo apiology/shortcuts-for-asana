@@ -5,7 +5,8 @@
  */
 import { ChromeExtensionPlatform } from './chrome-extension/chrome-extension-platform.js';
 import {
-  htmlElementBySelector, htmlElementByClass, htmlElementsBySelector, waitForElement,
+  htmlElementByClass, htmlElementsBySelector,
+  waitForElement, waitForElements,
 } from './chrome-extension/dom-utils.js';
 import { platform } from './platform.js';
 
@@ -21,11 +22,6 @@ const findElement = (selector: string): HTMLElement | null => {
     return element;
   }
   return null;
-};
-
-const awaitAndClickOnElement = async (selector: string): Promise<void> => {
-  const element = await waitForElement(selector, HTMLElement);
-  element.click();
 };
 
 const clickOnElement = (selector: string): boolean => {
@@ -252,34 +248,43 @@ const clickRefineSearchButton = () => {
 const clickConvertToSubtaskButton = async () => {
   logger.debug('clicking on extra actions button');
   clickOnElement('.TaskPaneExtraActionsButton');
-  logger.debug('waiting for convertTo button to appear');
+  const menuItemsSelector = 'div[role="menuitem"]';
+  logger.debug(`waiting for convertTo button to appear with selector ${menuItemsSelector}`);
 
-  const convertTo = await waitForElement(
-    '.TaskPaneExtraActionsButton-convertToMenuItem',
-    HTMLElement
-  );
+  const menuItems = await waitForElements(menuItemsSelector, HTMLElement);
+
+  logger.debug('menu items', menuItems.map((e) => e.textContent));
+
+  waitForElement('.TaskPaneExtraActionsButton-menu');
+  const convertTo = menuItems.find((e) => e.textContent?.trim() === 'Convert to');
+  if (convertTo == null) {
+    logger.error('Could not find convert to menu item!');
+    return;
+  }
+  logger.debug('found convertTo', convertTo, convertTo.getBoundingClientRect());
+
   logger.debug('hovering over convertTo');
   const convertToRect = convertTo.getBoundingClientRect();
   const convertToX = convertToRect.x + convertToRect.width / 2;
   const convertToY = convertToRect.y + convertToRect.height / 2;
-  // send mouse move event
-  const mouseMoveEvent = new MouseEvent('mousemove', {
+  const mouseOverEvent = new MouseEvent('mouseover', {
     bubbles: true,
     cancelable: true,
     clientX: convertToX,
     clientY: convertToY,
   });
-  convertTo.dispatchEvent(mouseMoveEvent);
+  convertTo.dispatchEvent(mouseOverEvent);
+  const submenuItemsSelector = 'div[role="menuitemradio"]';
+  logger.debug('Looking for submenus with selector', submenuItemsSelector);
+  const submenus = await waitForElements(submenuItemsSelector, HTMLElement);
+  const subtask = submenus.find((e) => e.textContent?.trim() === 'Subtask');
+  if (subtask == null) {
+    logger.error('Could not find subtask menu item!');
+    return;
+  }
+  logger.debug('found subtask', subtask, subtask.getBoundingClientRect());
   logger.debug('clicking convert to subtask button');
-  awaitAndClickOnElement('.TaskPaneExtraActionsButton-changeTaskParentDrawerItem');
-
-  const changeTaskParent = htmlElementBySelector('.ChangeTaskParentDrawer input', HTMLElement);
-  // send focusin
-  const focusInEvent = new FocusEvent('focusin', {
-    bubbles: true,
-    cancelable: true,
-  });
-  changeTaskParent.dispatchEvent(focusInEvent);
+  subtask.click();
 };
 
 const dismissTaskTime = () => {
