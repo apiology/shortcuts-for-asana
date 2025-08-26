@@ -243,6 +243,7 @@ const clickRefineSearchButton = () => {
   clickOnElement('.SearchGridPageToolbar-advancedSearchFiltersAppliedButton');
   clickOnElement('.SearchGridPageToolbar-advancedSearchButton');
   clickOnElement('.SubtleToggleButton:has(svg.FilterMiniIcon)');
+  htmlElementsBySelector('.SearchGridPageFilterButton', HTMLElement).at(-1)?.click(); // 2025-08
 };
 
 const clickConvertToSubtaskButton = async () => {
