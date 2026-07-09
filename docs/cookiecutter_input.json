@@ -1,6 +1,6 @@
 {
-    "_checkout": null,
-    "_output_dir": "/Users/broz/src/shortcuts-for-asana/.git/cookiecutter",
+    "_checkout": "main",
+    "_output_dir": "/var/folders/x8/n_wt7tf90wqgt0w15rtny7v80000gn/T/tmp.t83t7Oqbiv",
     "_repo_dir": "/Users/broz/.cookiecutters/cookiecutter-chrome-extension",
     "_template": "https://github.com/apiology/cookiecutter-chrome-extension",
     "asana_api": "no",
